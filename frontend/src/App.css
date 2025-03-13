@@ -1,0 +1,15 @@
+Button {
+  cursor: pointer;
+}
+
+.forgot {
+  position: relative;
+}
+
+.forgot::after {
+  content: '';
+  width: 100%;
+  height: 1px;
+  background: black;
+  position: absolute;
+}
