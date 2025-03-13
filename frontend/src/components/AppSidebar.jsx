@@ -26,45 +26,34 @@ import { Settings } from "lucide-react";
 import { Search } from "lucide-react";
 import { LogOut } from "lucide-react";
 import { useUser } from "@/middleware/user";
+import { Timer } from "lucide-react";
+import { UserSquare } from "lucide-react";
+import { ClipboardCheck } from "lucide-react";
+import { TimerOff } from "lucide-react";
+import { ClipboardEdit } from "lucide-react";
+import { BookCopy } from "lucide-react";
 
 const AppSidebar = () => {
   const { logout } = useUser();
   const role = window.localStorage.getItem("role");
   console.log(role);
+  const location = window.location.pathname;
   const setNavLinks = (role) => {
     if (role === "user") {
       return [
         { name: "Home", path: "/", icon: <Home className="text-[17px]" /> },
         {
-          name: "Browse Books",
+          name: "Borrowed Books",
           path: "/books",
           icon: <Book className="text-[17px]" />,
         },
-        {
-          name: "My Borrowed",
-          path: "/my-borrowed",
-          icon: <ClipboardList className="text-[17px]" />,
-        },
+
         {
           name: "Search",
           path: "/search",
           icon: <Search className="text-[17px]" />,
         },
-        {
-          name: "Categories",
-          path: "/categories",
-          icon: <Layers className="text-[17px]" />,
-        },
-        {
-          name: "Wishlist",
-          path: "/wishlist",
-          icon: <Heart className="text-[17px]" />,
-        },
-        {
-          name: "Profile",
-          path: "/profile",
-          icon: <User className="text-[17px]" />,
-        },
+
         {
           name: "Support",
           path: "/support",
@@ -75,39 +64,30 @@ const AppSidebar = () => {
       return [
         {
           name: "Dashboard",
-          path: "/admin/dashboard",
+          path: "/",
           icon: <LayoutDashboard className="text-[17px]" />,
         },
         {
           name: "Manage Books",
           path: "/admin/books",
-          icon: <Book className="text-[17px]" />,
+          icon: <BookCopy className="text-[17px]" />,
         },
         {
           name: "Manage Users",
           path: "/admin/users",
-          icon: <Users className="text-[17px]" />,
+          icon: <UserSquare className="text-[17px]" />,
         },
         {
           name: "Issued Books",
           path: "/admin/issued-books",
-          icon: <ClipboardList className="text-[17px]" />,
+          icon: <ClipboardEdit className="text-[17px]" />,
         },
         {
           name: "Overdue Books",
           path: "/admin/overdue",
-          icon: <List className="text-[17px]" />,
+          icon: <TimerOff className="text-[17px]" />,
         },
-        {
-          name: "Categories",
-          path: "/admin/categories",
-          icon: <Layers className="text-[17px]" />,
-        },
-        {
-          name: "Reports",
-          path: "/admin/reports",
-          icon: <FileBarChart2 className="text-[17px]" />,
-        },
+
         {
           name: "Settings",
           path: "/admin/settings",
@@ -135,10 +115,15 @@ const AppSidebar = () => {
                     className={
                       "text-[16px] py-6 text-gray-600 hover:text-gray-900"
                     }
+                    style={{
+                      background:
+                        item.path == location ? "rgba(0,0,0,.05)" : "",
+                      color: item.path == location ? "black" : "",
+                    }}
                   >
-                    <a href={item.path}>
+                    <a className="capitalize font-semibold" href={item.path}>
                       <span>{item.icon}</span>
-                      <span>{item.name}</span>
+                      <span className="text-[15px]">{item.name}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -150,14 +135,14 @@ const AppSidebar = () => {
       <SidebarFooter>
         <SidebarMenuButton
           className={
-            "text-[16px] py-6 text-red-500 hover:text-red-700 bg-gray-100 flex align-center justify-center items-center"
+            "text-[16px] py-6 bg-gray-900 text-white hover:bg-gray-800 hover:text-white  flex align-center justify-center items-center"
           }
           onClick={() => logout() + window.location.reload()}
         >
           <span>
-            <LogOut />
+            <LogOut size={18} />
           </span>
-          <span>Logout</span>
+          <span className="uppercase">Logout</span>
         </SidebarMenuButton>
       </SidebarFooter>
     </Sidebar>
