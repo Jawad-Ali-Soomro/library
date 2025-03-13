@@ -2,6 +2,10 @@ Button {
   cursor: pointer;
 }
 
+* {
+  font-family: Exo;
+}
+
 .forgot {
   position: relative;
 }

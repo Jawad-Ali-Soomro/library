@@ -6,8 +6,12 @@ import { Label } from "./ui/label";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LOGIN_SCHEMA } from "@/schema/USER_SCHEMA";
+import toast from "react-hot-toast";
+import { axiosInstance } from "@/utils/axiosInstance";
+import { useUser } from "@/middleware/user";
 
 const Login = () => {
+    const { login } = useUser()
     const {
         register,
         handleSubmit,
@@ -16,8 +20,14 @@ const Login = () => {
         resolver: yupResolver(LOGIN_SCHEMA)
     })
     const navigate = useNavigate()
-    const formSubmission = (data, e) => {
-        e.preventDefault()
+    const formSubmission = async (data) => {
+        try {
+            const response = await axiosInstance.post('/user/login', data)
+            login(response.data.user, response.data.token);
+            window.location.reload()
+        } catch (error) {
+            toast.error(error.response.data.message)
+        }
     }
     return (
         <div className="flex justify-center items-center bg-gray-200 w-full h-[100vh]">
@@ -25,12 +35,12 @@ const Login = () => {
                 <img className="w-50" src="/logo.png" alt="Logo" />
                 <form onSubmit={handleSubmit(formSubmission)} action="" className="flex flex-col mt-5 gap-5">
                     <div className="flex flex-col gap-1">
-                        <Label className={"pl-1"}>Email</Label>
+                        <Label className={"pl-1 uppercase text-[10px]"}>Email</Label>
                         <Input className={"w-80  py-3"} type={"email"} {...register("email")} />
                         <p className="text-red-400 uppercase text-[12px] font-semibold text-sm mt-1">{errors.email?.message}</p>
                     </div>
                     <div className="flex flex-col gap-1">
-                        <Label className={"pl-1"}>Password</Label>
+                        <Label className={"pl-1 uppercase text-[10px]"}>Password</Label>
                         <Input type={"password"} {...register("password")} className={"w-80  py-3"} />
                         <p className="text-red-400 uppercase text-[12px] font-semibold text-sm mt-1">{errors.password?.message}</p>
                     </div>

@@ -2,15 +2,29 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Login, Register } from './components'
 import { UserContextProvider } from './middleware/UserContext'
+import { Toaster } from 'react-hot-toast'
+import ProtectedRoute from './components/ProtectedRoute'
+import Dashboard from './pages/Dashboard'
 
 function App() {
-
+  const cookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  };
+  const token = cookie("token")
+  console.log(token)
   return (
     <>
+      <Toaster position='top-right' containerStyle={{
+        textTransform: 'uppercase',
+        fontSize: '15px',
+        fontWeight: '600'
+      }} />
       <BrowserRouter>
         <UserContextProvider>
           <Routes>
-            <Route path='/' element={<Login />} ></Route>
+            <Route path='/' element={token ? <ProtectedRoute><Dashboard /></ProtectedRoute> : <Login />} ></Route>
             <Route path='/register' element={<Register />} ></Route>
           </Routes>
         </UserContextProvider>
