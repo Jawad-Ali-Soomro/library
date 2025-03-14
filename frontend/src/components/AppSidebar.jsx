@@ -32,6 +32,7 @@ import { ClipboardCheck } from "lucide-react";
 import { TimerOff } from "lucide-react";
 import { ClipboardEdit } from "lucide-react";
 import { BookCopy } from "lucide-react";
+import { Settings2 } from "lucide-react";
 
 const AppSidebar = () => {
   const { logout } = useUser();
@@ -43,19 +44,17 @@ const AppSidebar = () => {
       return [
         { name: "Home", path: "/", icon: <Home className="text-[17px]" /> },
         {
+          name: "Update Profile",
+          path: "/profile",
+          icon: <Settings className="text-[17px]" />,
+        },
+        {
           name: "Borrowed Books",
           path: "/books",
           icon: <Book className="text-[17px]" />,
         },
-
         {
-          name: "Search",
-          path: "/search",
-          icon: <Search className="text-[17px]" />,
-        },
-
-        {
-          name: "Support",
+          name: "Contact Librarian",
           path: "/support",
           icon: <Headset className="text-[17px]" />,
         },
@@ -100,7 +99,7 @@ const AppSidebar = () => {
   const navLinks = setNavLinks(role);
   console.log(navLinks);
   return (
-    <Sidebar>
+    <Sidebar className={""}>
       <SidebarHeader>
         <img className="w-[80%] ml-[10%] mt-10" src="/logo.png" alt="" />
       </SidebarHeader>
@@ -121,7 +120,7 @@ const AppSidebar = () => {
                       color: item.path == location ? "black" : "",
                     }}
                   >
-                    <a className="capitalize font-semibold" href={item.path}>
+                    <a className="capitalize" href={item.path}>
                       <span>{item.icon}</span>
                       <span className="text-[15px]">{item.name}</span>
                     </a>

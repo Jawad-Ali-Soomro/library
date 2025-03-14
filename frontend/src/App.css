@@ -3,7 +3,7 @@ Button {
 }
 
 * {
-  font-family: Exo;
+  font-family: Kanit;
 }
 
 .forgot {
@@ -11,7 +11,7 @@ Button {
 }
 
 .forgot::after {
-  content: '';
+  content: "";
   width: 100%;
   height: 1px;
   background: black;
