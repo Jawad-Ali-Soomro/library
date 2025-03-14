@@ -19,8 +19,11 @@ const ProtectedRoute = ({ children }) => {
         <div className="flex flex-col w-full">
           <SidebarTrigger className={"fixed top-5"} />
           <header className="w-full py-3 min-h-10 border-b border-gray-200 pr-10 flex justify-end gap-5 items-center">
-            <p className="cursor-pointer font-semibold">
-              <span className="text-gray-500">Howdy,</span> {user?.username}
+            <p className="cursor-pointer font-semibold relative">
+              <span className="text-gray-500">Howdy,</span> {user?.username}{" "}
+              <span className="absolute px-4 py-1 rounded-xl uppercase text-[10px] bg-[black] text-white bottom-6 right-[-30px] font-normal">
+                {user?.role}
+              </span>
             </p>
             <img
               className="cursor-pointer w-[50px] h-[50px] rounded-3xl"
