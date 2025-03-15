@@ -1,10 +1,11 @@
-import './App.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Login, Register } from './components'
-import { UserContextProvider } from './middleware/UserContext'
-import { Toaster } from 'react-hot-toast'
-import ProtectedRoute from './components/ProtectedRoute'
-import Dashboard from './pages/Dashboard'
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Login, Register } from "./components";
+import { UserContextProvider } from "./middleware/UserContext";
+import { Toaster } from "react-hot-toast";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
 
 function App() {
   const cookie = (name) => {
@@ -12,25 +13,47 @@ function App() {
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(";").shift();
   };
-  const token = cookie("token")
-  console.log(token)
+  const token = cookie("token");
+  console.log(token);
   return (
     <>
-      <Toaster position='top-right' containerStyle={{
-        textTransform: 'uppercase',
-        fontSize: '15px',
-        fontWeight: '600'
-      }} />
+      <Toaster
+        position="top-right"
+        containerStyle={{
+          textTransform: "uppercase",
+          fontSize: "15px",
+          fontWeight: "600",
+        }}
+      />
       <BrowserRouter>
         <UserContextProvider>
           <Routes>
-            <Route path='/' element={token ? <ProtectedRoute><Dashboard /></ProtectedRoute> : <Login />} ></Route>
-            <Route path='/register' element={<Register />} ></Route>
+            <Route
+              path="/"
+              element={
+                token ? (
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                ) : (
+                  <Login />
+                )
+              }
+            ></Route>
+            <Route path="/register" element={<Register />}></Route>
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </UserContextProvider>
       </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

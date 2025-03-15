@@ -14,6 +14,9 @@ import { useEffect } from "react";
 import { Button } from "./ui/button";
 
 const UserDashboard = () => {
+  const [title, setTitle] = useState("");
+  const [publishedYear, setPublishYear] = useState("");
+  const [category, setCategory] = useState("");
   const [books, setBooks] = useState([]);
   const departments = [
     "Computer Science",
@@ -25,7 +28,11 @@ const UserDashboard = () => {
   ];
 
   const fetchBooks = async () => {
-    const response = await axiosInstance.post("/book/get/all");
+    const response = await axiosInstance.post("/book/get/all", {
+      title,
+      publishedYear,
+      category,
+    });
     setBooks(response.data);
   };
 
@@ -45,9 +52,16 @@ const UserDashboard = () => {
   return (
     <div className="flex flex-col relative mt-10">
       <div className="top-search flex gap-2 w-full  justify-end items-end">
-        <Input className={"w-[300px] py-4"}></Input>
+        <Input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className={"w-[300px] py-4"}
+        ></Input>
         <div className="flex">
-          <Select className="w-full px-10">
+          <Select
+            onValueChange={(value) => setCategory(value)}
+            className="w-full px-10"
+          >
             <SelectTrigger className={"w-[200px] h-20"}>
               <SelectValue placeholder="Department" />
             </SelectTrigger>
@@ -59,7 +73,10 @@ const UserDashboard = () => {
           </Select>
         </div>
         <div className="flex">
-          <Select className="w-full px-10">
+          <Select
+            className="w-full px-10"
+            onValueChange={(value) => setPublishYear(value)}
+          >
             <SelectTrigger className={"w-[150px] h-20"}>
               <SelectValue placeholder="Select Year" />
             </SelectTrigger>

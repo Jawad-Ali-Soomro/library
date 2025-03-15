@@ -2,7 +2,17 @@ const Book = require("../models/bookModel");
 
 exports.getAllBooks = async (req, res) => {
   try {
-    const books = await Book.find();
+    let filter = {};
+    if (req.body.title) {
+      filter.title = req.body.title;
+    }
+    if (req.body.category) {
+      filter.category = req.body.category;
+    }
+    if (req.body.publishedYear) {
+      filter.publishedYear = req.body.publishedYear;
+    }
+    const books = await Book.find(filter);
     res.status(200).json(books);
   } catch (error) {
     res.status(500).json({ message: "Error fetching books", error });

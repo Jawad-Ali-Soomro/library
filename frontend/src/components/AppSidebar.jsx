@@ -131,7 +131,7 @@ const AppSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
+      {/* <SidebarFooter>
         <SidebarMenuButton
           className={
             "text-[16px] rounded-xl py-6 bg-gray-900 text-white hover:bg-gray-800 hover:text-white  flex align-center justify-center items-center"
@@ -140,7 +140,7 @@ const AppSidebar = () => {
         >
           <span className="uppercase font-semibold ">Logout</span>
         </SidebarMenuButton>
-      </SidebarFooter>
+      </SidebarFooter> */}
     </Sidebar>
   );
 };
