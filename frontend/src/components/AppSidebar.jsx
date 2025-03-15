@@ -112,7 +112,7 @@ const AppSidebar = () => {
                   <SidebarMenuButton
                     asChild
                     className={
-                      "text-[16px] py-6 text-gray-600 hover:text-gray-900"
+                      "text-[16px] py-6 text-gray-600 hover:text-gray-900 rounded-xl"
                     }
                     style={{
                       background:
@@ -134,14 +134,11 @@ const AppSidebar = () => {
       <SidebarFooter>
         <SidebarMenuButton
           className={
-            "text-[16px] py-6 bg-gray-900 text-white hover:bg-gray-800 hover:text-white  flex align-center justify-center items-center"
+            "text-[16px] rounded-xl py-6 bg-gray-900 text-white hover:bg-gray-800 hover:text-white  flex align-center justify-center items-center"
           }
           onClick={() => logout() + window.location.reload()}
         >
-          <span>
-            <LogOut size={18} />
-          </span>
-          <span className="uppercase">Logout</span>
+          <span className="uppercase font-semibold ">Logout</span>
         </SidebarMenuButton>
       </SidebarFooter>
     </Sidebar>

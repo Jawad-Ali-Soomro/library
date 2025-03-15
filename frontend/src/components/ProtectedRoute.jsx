@@ -16,12 +16,12 @@ const ProtectedRoute = ({ children }) => {
     <div className="flex">
       <SidebarProvider>
         <AppSidebar />
-        <div className="flex flex-col w-full">
-          <SidebarTrigger className={"fixed top-5"} />
-          <header className="w-full py-3 min-h-10 border-b border-gray-200 pr-10 flex justify-end gap-5 items-center">
+        <div className="flex flex-col w-full relative">
+          <SidebarTrigger className={"fixed top-5 z-10"} />
+          <header className="w-full fixed top-0 left-0 py-3 z-9 bg-white min-h-10 border-b border-gray-200 pr-10 flex justify-end gap-5 items-center">
             <p className="cursor-pointer font-semibold relative">
               <span className="text-gray-500">Howdy,</span> {user?.username}{" "}
-              <span className="absolute px-4 py-1 rounded-xl uppercase text-[10px] bg-[black] text-white bottom-6 right-[-30px] font-normal">
+              <span className="absolute px-4 py-1 rounded-xl capitalize font-semibold text-[10px] bg-[black] text-white bottom-6 right-[-30px] font-normal">
                 {user?.role}
               </span>
             </p>
@@ -31,7 +31,7 @@ const ProtectedRoute = ({ children }) => {
               alt=""
             />
           </header>
-          <main className="flex-grow p-10">{children}</main>
+          <main className="flex-grow p-10 mt-10">{children}</main>
         </div>
       </SidebarProvider>
     </div>
