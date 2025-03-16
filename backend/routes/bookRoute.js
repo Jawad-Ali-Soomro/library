@@ -4,12 +4,14 @@ const {
   getAllBooks,
   getBookById,
   updateBook,
+  borrowBooks,
 } = require("../controllers/bookController");
 const bookRoute = express.Router();
 
 bookRoute.post("/add", addBook);
 bookRoute.post("/get/all", getAllBooks);
 bookRoute.post("/get/:id", getBookById);
-bookRoute.post("/update:/id", updateBook);
+bookRoute.post("/update/:id", updateBook);
+bookRoute.post("/borrow", borrowBooks);
 
 module.exports = bookRoute;

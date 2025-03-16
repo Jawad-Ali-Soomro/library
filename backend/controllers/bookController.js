@@ -1,4 +1,6 @@
 const Book = require("../models/bookModel");
+const User = require("../models/userModel");
+const Borrow = require("../models/borrowModel");
 
 exports.getAllBooks = async (req, res) => {
   try {
@@ -62,4 +64,29 @@ exports.deleteBook = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error deleting book", error });
   }
+};
+
+exports.borrowBooks = async (req, res) => {
+  const { bookId, userId } = req.body;
+  const findUser = await User.findById(userId);
+  const findBook = await Book.findById(bookId);
+  if (!findUser || !findBook) {
+    return res.status(404).json({ message: "User or book not found" });
+  }
+  if (findBook.availableCopies < 1) {
+    return res.status(400).json({ message: "Book is not available" });
+  }
+  const today = new Date();
+  const futureDate = new Date();
+  futureDate.setDate(today.getDate() + 15);
+  const borrowed = await Borrow.create({
+    book: findBook._id,
+    borrower: findUser._id,
+    dueDate: futureDate.toISOString().split("T")[0],
+  });
+  findUser.borrowedBooks.push(borrowed._id);
+  findBook.availableCopies - 1;
+  findBook.borrowedCopies.push(borrowed._id);
+  await findUser.save();
+  await findBook.save();
 };

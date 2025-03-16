@@ -37,7 +37,6 @@ import { Settings2 } from "lucide-react";
 const AppSidebar = () => {
   const { logout } = useUser();
   const role = window.localStorage.getItem("role");
-  console.log(role);
   const location = window.location.pathname;
   const setNavLinks = (role) => {
     if (role === "user") {
@@ -97,7 +96,6 @@ const AppSidebar = () => {
     return [];
   };
   const navLinks = setNavLinks(role);
-  console.log(navLinks);
   return (
     <Sidebar className={""}>
       <SidebarHeader>

@@ -12,8 +12,11 @@ import { useState } from "react";
 import { axiosInstance } from "@/utils/axiosInstance";
 import { useEffect } from "react";
 import { Button } from "./ui/button";
+import toast from "react-hot-toast";
+import { useUser } from "@/middleware/user";
 
 const UserDashboard = () => {
+  const { user, fetchUser } = useUser();
   const [title, setTitle] = useState("");
   const [publishedYear, setPublishYear] = useState("");
   const [category, setCategory] = useState("");
@@ -27,6 +30,11 @@ const UserDashboard = () => {
     "Mathematics",
   ];
 
+  const isBorrowed = (bookId) => {
+    const borrowedBooks = user?.borrowedBooks || [];
+    return borrowedBooks.some((book) => book.book === bookId);
+  };
+
   const fetchBooks = async () => {
     const response = await axiosInstance.post("/book/get/all", {
       title,
@@ -36,8 +44,26 @@ const UserDashboard = () => {
     setBooks(response.data);
   };
 
+  const borrowBook = async (bookId) => {
+    try {
+      const response = await axiosInstance.post(`/book/borrow`, {
+        userId: user?._id,
+        bookId,
+      });
+      if (response.data.success) {
+        toast.success("Book borrowed successfully");
+        await fetchUser();
+      } else {
+        toast.error("Failed to borrow book");
+      }
+    } catch (error) {
+      toast.error("Error borrowing book");
+    }
+  };
+
   useEffect(() => {
     fetchBooks();
+    fetchUser();
   });
   const years = [
     "2018",
@@ -97,7 +123,11 @@ const UserDashboard = () => {
                 src={book?.image}
                 alt=""
               />
-              <Button className={"w-[100px] rounded-xl py-5 mt-2 uppercase"}>
+              <Button
+                className={"w-[100px] rounded-xl py-5 mt-2 uppercase"}
+                onClick={() => borrowBook(book?._id)}
+                disabled={isBorrowed(book._id)}
+              >
                 Get
               </Button>
             </div>

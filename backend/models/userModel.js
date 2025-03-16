@@ -68,26 +68,8 @@ const userSchema = new mongoose.Schema({
   },
   borrowedBooks: [
     {
-      bookId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Book",
-      },
-      borrowedAt: {
-        type: Date,
-        default: Date.now,
-      },
-      dueDate: {
-        type: Date,
-        required: true,
-      },
-      returned: {
-        type: Boolean,
-        default: false,
-      },
-      fine: {
-        type: Number,
-        default: 0,
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Borrow",
     },
   ],
   totalFine: {
