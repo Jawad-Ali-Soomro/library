@@ -9,7 +9,7 @@ const Borrowed = () => {
 
   return (
     <div>
-      <div className="bottom gap-2 mt-10 flex flex-wrap justify-between wrap w-full">
+      <div className="bottom gap-2 mt-10 flex flex-wrap justify-start wrap w-full">
         {user?.borrowedBooks?.map((book) => {
           return (
             <div className="rounded-md relative flex  w-[1/2] flex-col gap-2 p-5 items-end">
