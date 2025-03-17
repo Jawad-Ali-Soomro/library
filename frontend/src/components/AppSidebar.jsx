@@ -41,7 +41,6 @@ import { UploadCloud } from "lucide-react";
 const AppSidebar = () => {
   const { logout, user, fetchUser } = useUser();
   const role = window.localStorage.getItem("role");
-  console.log(user);
   const location = window.location.pathname;
   const setNavLinks = (role) => {
     if (role === "user") {

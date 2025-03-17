@@ -86,8 +86,39 @@ exports.borrowBooks = async (req, res) => {
     dueDate: futureDate.toISOString().split("T")[0],
   });
   findUser.borrowedBooks.push(borrowed._id);
-  findBook.availableCopies - 1;
+  findBook.availableCopies--;
   findBook.borrowedCopies.push(borrowed._id);
   await findUser.save();
   await findBook.save();
+};
+
+exports.returnBook = async (req, res) => {
+  const { borrowId } = req.body;
+  const findBorrow = await Borrow.findById(borrowId);
+  const findUser = await User.findById(findBorrow.borrower);
+  const findBook = await Book.findById(findBorrow.book);
+
+  if (!findUser || !findBook) {
+    return res.status(404).json({ message: "User or book not found" });
+  }
+
+  const today = new Date();
+  findBorrow.returnedAt = today;
+
+  findUser.borrowedBooks = findUser.borrowedBooks.filter(
+    (id) => id.toString() !== findBorrow._id.toString()
+  );
+  findBook.borrowedCopies = findBook.borrowedCopies.filter(
+    (id) => id.toString() !== findBorrow._id.toString()
+  );
+
+  findBook.availableCopies++; // Increment available copies
+
+  await findBorrow.save();
+  await findUser.save();
+  await findBook.save();
+
+  return res.json({
+    message: "Book returned successfully",
+  });
 };

@@ -15,7 +15,6 @@ function App() {
     if (parts.length === 2) return parts.pop().split(";").shift();
   };
   const token = cookie("token");
-  console.log(token);
   return (
     <>
       <Toaster

@@ -22,7 +22,10 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email })
       .select("+password")
-      .populate("borrowedBooks");
+      .populate({
+        path: "borrowedBooks",
+        populate: { path: "book" },
+      });
     if (!user) return res.status(400).json({ message: "Invalid credentials" });
     const isMatch = await user.comparePassword(password);
     if (!isMatch) return res.status(400).json({ message: "Invalid Password" });

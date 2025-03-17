@@ -21,7 +21,6 @@ const UserDashboard = () => {
   const [publishedYear, setPublishYear] = useState("");
   const [category, setCategory] = useState("");
   const [books, setBooks] = useState([]);
-  console.log(user);
   const departments = [
     "Computer Science",
     "Commerce",
@@ -53,12 +52,11 @@ const UserDashboard = () => {
       });
       if (response.data.success) {
         toast.success("Book borrowed successfully");
-        await fetchUser();
       } else {
         toast.error("Failed to borrow book");
       }
     } catch (error) {
-      toast.error("Error borrowing book");
+      toast.error(error.response.data.message);
     }
   };
 
