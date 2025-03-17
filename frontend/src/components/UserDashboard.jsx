@@ -33,7 +33,7 @@ const UserDashboard = () => {
 
   const isBorrowed = (bookId) => {
     const borrowedBooks = user?.borrowedBooks || [];
-    return borrowedBooks.some((book) => book.book === bookId);
+    return borrowedBooks.some((book) => book.book._id === bookId);
   };
 
   const fetchBooks = async () => {
