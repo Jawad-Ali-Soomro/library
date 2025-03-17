@@ -35,7 +35,7 @@ import { BookCopy } from "lucide-react";
 import { Settings2 } from "lucide-react";
 
 const AppSidebar = () => {
-  const { logout } = useUser();
+  const { logout, user } = useUser();
   const role = window.localStorage.getItem("role");
   const location = window.location.pathname;
   const setNavLinks = (role) => {
@@ -51,6 +51,9 @@ const AppSidebar = () => {
           name: "Borrowed Books",
           path: "/books",
           icon: <Book className="text-[17px]" />,
+          ...(user?.borrowedBooks?.length > 0 && {
+            total: user.borrowedBooks.length,
+          }),
         },
         {
           name: "Contact Librarian",
@@ -121,6 +124,11 @@ const AppSidebar = () => {
                     <a className="capitalize" href={item.path}>
                       <span>{item.icon}</span>
                       <span className="text-[15px]">{item.name}</span>
+                      {item.total && (
+                        <span className="w-8 h-8 flex items-center justify-center bg-gray-900 text-white  absolute text-[12px] rounded-2xl right-0">
+                          {item?.total}
+                        </span>
+                      )}
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
