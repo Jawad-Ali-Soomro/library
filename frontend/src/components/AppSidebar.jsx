@@ -33,10 +33,15 @@ import { ClipboardEdit } from "lucide-react";
 import { BookCopy } from "lucide-react";
 import { Settings2 } from "lucide-react";
 import { useEffect } from "react";
+import { Info } from "lucide-react";
+import { BadgeInfoIcon } from "lucide-react";
+import { Upload } from "lucide-react";
+import { UploadCloud } from "lucide-react";
 
 const AppSidebar = () => {
   const { logout, user, fetchUser } = useUser();
   const role = window.localStorage.getItem("role");
+  console.log(user);
   const location = window.location.pathname;
   const setNavLinks = (role) => {
     if (role === "user") {
@@ -46,6 +51,9 @@ const AppSidebar = () => {
           name: "Update Profile",
           path: "/profile",
           icon: <Settings className="text-[17px]" />,
+          ...(user?.avatar === "" || user?.avatar === null
+            ? { infoIcon: <UploadCloud className="text-[17px]" /> } // Add infoIcon if avatar is empty or null
+            : {}), // Otherwise, add nothing
         },
         {
           name: "Borrowed Books",
@@ -126,8 +134,13 @@ const AppSidebar = () => {
                       <span>{item.icon}</span>
                       <span className="text-[15px]">{item.name}</span>
                       {item.total && (
-                        <span className="w-8 h-8 flex items-center justify-center bg-gray-900 text-white  absolute text-[12px] rounded-2xl right-0">
+                        <span className="w-8 h-8 flex items-center justify-center bg-gray-900 text-white  absolute text-[12px] rounded-2xl right-2">
                           {item?.total}
+                        </span>
+                      )}
+                      {item.infoIcon && (
+                        <span className="w-8 h-8 flex items-center justify-center text-black  absolute text-[12px] rounded-2xl right-2">
+                          {item?.infoIcon}
                         </span>
                       )}
                     </a>

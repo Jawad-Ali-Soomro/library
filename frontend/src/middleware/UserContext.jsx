@@ -53,7 +53,6 @@ export const UserContextProvider = ({ children }) => {
     });
     cookies.set("token", storedToken, { path: "/", maxAge: 7 * 24 * 60 * 60 });
   };
-  console.log(user);
   return (
     <UserContext.Provider
       value={{ user, token, login, logout, fetchUser, loading, setLoading }}

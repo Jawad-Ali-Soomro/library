@@ -1,12 +1,12 @@
 const Book = require("../models/bookModel");
 const User = require("../models/userModel");
 const Borrow = require("../models/borrowModel");
-
 exports.getAllBooks = async (req, res) => {
   try {
     let filter = {};
+
     if (req.body.title) {
-      filter.title = req.body.title;
+      filter.title = { $regex: req.body.title, $options: "i" }; // Case-insensitive partial match
     }
     if (req.body.category) {
       filter.category = req.body.category;
@@ -14,6 +14,7 @@ exports.getAllBooks = async (req, res) => {
     if (req.body.publishedYear) {
       filter.publishedYear = req.body.publishedYear;
     }
+
     const books = await Book.find(filter);
     res.status(200).json(books);
   } catch (error) {

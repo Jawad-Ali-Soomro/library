@@ -38,12 +38,17 @@ exports.login = async (req, res) => {
 exports.getUserById = async (req, res) => {
   try {
     const { userId } = req.params;
-    const found_user = await User.findById(userId).populate("borrowedBooks");
-    if (!found_user) return res.status(404).json({ message: "User not found" });
+    const found_user = await User.findById(userId).populate({
+      path: "borrowedBooks", // Populating borrowed books
+      populate: { path: "book" }, // If each borrowed book has a book reference
+    });
+
+    if (!found_user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     res.status(200).json(found_user);
   } catch (error) {
-    return res.json({
-      error: error.message,
-    });
+    return res.status(500).json({ error: error.message });
   }
 };
