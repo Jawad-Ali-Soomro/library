@@ -2,7 +2,6 @@ import React from "react";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
@@ -33,9 +32,10 @@ import { TimerOff } from "lucide-react";
 import { ClipboardEdit } from "lucide-react";
 import { BookCopy } from "lucide-react";
 import { Settings2 } from "lucide-react";
+import { useEffect } from "react";
 
 const AppSidebar = () => {
-  const { logout, user } = useUser();
+  const { logout, user, fetchUser } = useUser();
   const role = window.localStorage.getItem("role");
   const location = window.location.pathname;
   const setNavLinks = (role) => {
@@ -49,7 +49,7 @@ const AppSidebar = () => {
         },
         {
           name: "Borrowed Books",
-          path: "/books",
+          path: "/borrowed",
           icon: <Book className="text-[17px]" />,
           ...(user?.borrowedBooks?.length > 0 && {
             total: user.borrowedBooks.length,
@@ -99,6 +99,7 @@ const AppSidebar = () => {
     return [];
   };
   const navLinks = setNavLinks(role);
+
   return (
     <Sidebar className={""}>
       <SidebarHeader>

@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
+import Borrowed from "./components/Borrowed";
 
 function App() {
   const cookie = (name) => {
@@ -46,6 +47,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/borrowed"
+              element={
+                <ProtectedRoute>
+                  <Borrowed />
                 </ProtectedRoute>
               }
             />

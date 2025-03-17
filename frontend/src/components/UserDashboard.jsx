@@ -21,6 +21,7 @@ const UserDashboard = () => {
   const [publishedYear, setPublishYear] = useState("");
   const [category, setCategory] = useState("");
   const [books, setBooks] = useState([]);
+  console.log(user);
   const departments = [
     "Computer Science",
     "Commerce",

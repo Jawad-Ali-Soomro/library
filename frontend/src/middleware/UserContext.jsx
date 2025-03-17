@@ -13,10 +13,9 @@ export const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
+  const storedUser = cookies.get("user");
+  const storedToken = cookies.get("token");
   useEffect(() => {
-    const storedUser = cookies.get("user");
-    const storedToken = cookies.get("token");
-
     if (storedUser && storedToken) {
       setUser(storedUser);
       setToken(storedToken);
@@ -48,7 +47,13 @@ export const UserContextProvider = ({ children }) => {
     if (!user?._id) return;
     const response = await axiosInstance.post(`/user/${user?._id}`);
     setUser(response.data);
+    cookies.set("user", JSON.stringify(response.data), {
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60,
+    });
+    cookies.set("token", storedToken, { path: "/", maxAge: 7 * 24 * 60 * 60 });
   };
+  console.log(user);
   return (
     <UserContext.Provider
       value={{ user, token, login, logout, fetchUser, loading, setLoading }}
