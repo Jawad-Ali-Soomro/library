@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Borrowed from "./components/Borrowed";
+import BookManage from "./pages/BookManage";
 
 function App() {
   const cookie = (name) => {
@@ -57,6 +58,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/admin/books"
+              element={
+                <ProtectedRoute>
+                  <BookManage />
+                </ProtectedRoute>
+              }
+            />{" "}
           </Routes>
         </UserContextProvider>
       </BrowserRouter>

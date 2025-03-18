@@ -1,5 +1,5 @@
 import React from "react";
-import { Input } from "./ui/input";
+import { Input } from "../components/ui/input";
 import { Search } from "lucide-react";
 import {
   Select,
@@ -7,15 +7,15 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "../components/ui/select";
 import { useState } from "react";
 import { axiosInstance } from "@/utils/axiosInstance";
 import { useEffect } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../components/ui/button";
 import toast from "react-hot-toast";
 import { useUser } from "@/middleware/user";
 
-const UserDashboard = () => {
+const BookManage = () => {
   const { user, fetchUser } = useUser();
   const [title, setTitle] = useState("");
   const [publishedYear, setPublishYear] = useState("");
@@ -45,28 +45,8 @@ const UserDashboard = () => {
     setBooks(response.data);
   };
 
-  const borrowBook = async (bookId) => {
-    if (user.borrowedBooks.length >= 4) {
-      return toast.error("Borrow Limit Exceeded");
-    }
-    try {
-      const response = await axiosInstance.post(`/book/borrow`, {
-        userId: user?._id,
-        bookId,
-      });
-      if (response.data.success) {
-        toast.success("Book borrowed successfully");
-      } else {
-        toast.error("Failed to borrow book");
-      }
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  };
-
   useEffect(() => {
     fetchBooks();
-    fetchUser();
   });
   const years = [
     "2018",
@@ -89,9 +69,9 @@ const UserDashboard = () => {
         <div className="flex">
           <Select
             onValueChange={(value) => setCategory(value)}
-            className="w-full px-10"
+            className="w-full px-10 h-10"
           >
-            <SelectTrigger className={"w-[200px] h-20"}>
+            <SelectTrigger className={"w-[200px] h-40"}>
               <SelectValue placeholder="Department" />
             </SelectTrigger>
             <SelectContent>
@@ -103,7 +83,7 @@ const UserDashboard = () => {
         </div>
         <div className="flex">
           <Select
-            className="w-full px-10"
+            className="w-full px-10 h-10"
             onValueChange={(value) => setPublishYear(value)}
           >
             <SelectTrigger className={"w-[150px] h-20"}>
@@ -116,6 +96,9 @@ const UserDashboard = () => {
             </SelectContent>
           </Select>
         </div>
+        <div className="flex">
+          <Button className={"w-[200px] h-10"}>ADD NEW BOOK</Button>
+        </div>
       </div>
       <div className="bottom gap-2 mt-10 flex flex-wrap justify-start wrap w-full">
         {books?.map((book) => {
@@ -126,13 +109,18 @@ const UserDashboard = () => {
                 src={book?.image}
                 alt=""
               />
-              <Button
-                className={"w-[100px] rounded-xl py-5 mt-2 uppercase"}
-                onClick={() => borrowBook(book?._id)}
-                disabled={isBorrowed(book._id)}
-              >
-                Get
-              </Button>
+              <div className="flex w-full justify-between">
+                <Button
+                  className={
+                    "w-[140px] bg-red-500 rounded-xl py-5 mt-2 uppercase"
+                  }
+                >
+                  Delete
+                </Button>
+                <Button className={"w-[200px] rounded-xl py-5 mt-2 uppercase"}>
+                  UPdate
+                </Button>
+              </div>
             </div>
           );
         })}
@@ -141,4 +129,4 @@ const UserDashboard = () => {
   );
 };
 
-export default UserDashboard;
+export default BookManage;

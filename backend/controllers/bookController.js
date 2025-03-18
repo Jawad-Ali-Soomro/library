@@ -79,11 +79,9 @@ exports.borrowBooks = async (req, res) => {
   }
   const today = new Date();
   const futureDate = new Date();
-  futureDate.setDate(today.getDate() + 15);
   const borrowed = await Borrow.create({
     book: findBook._id,
     borrower: findUser._id,
-    dueDate: futureDate.toISOString().split("T")[0],
   });
   findUser.borrowedBooks.push(borrowed._id);
   findBook.availableCopies--;
@@ -121,4 +119,18 @@ exports.returnBook = async (req, res) => {
   return res.json({
     message: "Book returned successfully",
   });
+};
+
+exports.getAllBorrowedBooks = async (req, res) => {
+  try {
+    const borrowed = await Borrow.find({})
+      .populate("book")
+      .populate("borrower");
+    res.json(borrowed);
+  } catch (error) {
+    res.json({
+      message: "Error fetching borrowed books",
+      error,
+    });
+  }
 };

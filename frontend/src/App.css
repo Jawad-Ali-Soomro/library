@@ -17,3 +17,47 @@ Button {
   background: black;
   position: absolute;
 }
+
+.timer {
+  position: relative;
+}
+
+.timer::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 1px solid #80808090;
+  position: absolute;
+  border-radius: 50%;
+  animation: animateTimer 1s linear infinite;
+}
+
+.timer::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 1px solid #80808090;
+  position: absolute;
+  border-radius: 50%;
+  animation: animateTimer2 1s linear infinite;
+}
+
+@keyframes animateTimer {
+  from {
+    scale: 0;
+  }
+  to {
+    scale: 2.2;
+  }
+}
+
+@keyframes animateTimer2 {
+  from {
+    scale: 0;
+  }
+  to {
+    scale: 1.5;
+  }
+}

@@ -7,5 +7,14 @@ const borrowSchema = new mongoose.Schema({
   dueDate: { type: Date },
 });
 
+borrowSchema.pre("save", function (next) {
+  if (!this.dueDate) {
+    this.dueDate = new Date(
+      this.borrowedAt.getTime() + 15 * 24 * 60 * 60 * 1000
+    );
+  }
+  next();
+});
+
 const Borrow = mongoose.model("Borrow", borrowSchema);
 module.exports = Borrow;

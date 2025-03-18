@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import AppSidebar from "./AppSidebar";
 import { SidebarProvider, SidebarTrigger } from "./ui/sidebar";
 import { useUser } from "@/middleware/user";
@@ -12,6 +12,8 @@ const ProtectedRoute = ({ children }) => {
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(";").shift();
   };
+
+  const navigate = useNavigate();
   const token = cookie("token");
 
   return token ? (
@@ -42,7 +44,10 @@ const ProtectedRoute = ({ children }) => {
               }}
             >
               <ul className="flex flex-col gap-2 transition-3s">
-                <li className="w-full cursor-pointer py-2 bg-white flex items-center justify-center uppercase rounded-xl border">
+                <li
+                  onClick={() => navigate("/profile")}
+                  className="w-full cursor-pointer py-2 bg-white flex items-center justify-center uppercase rounded-xl border"
+                >
                   Profile
                 </li>
                 <li className="w-full cursor-pointer py-2 bg-white flex items-center justify-center uppercase rounded-xl border">

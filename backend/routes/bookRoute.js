@@ -15,5 +15,6 @@ bookRoute.post("/get/:id", getBookById);
 bookRoute.post("/update/:id", updateBook);
 bookRoute.post("/borrow", borrowBooks);
 bookRoute.post("/return", returnBook);
+bookRoute.get("/borrowed", returnBook);
 
 module.exports = bookRoute;
