@@ -3,6 +3,7 @@ import AppSidebar from "./AppSidebar";
 import { SidebarProvider, SidebarTrigger } from "./ui/sidebar";
 import { useUser } from "@/middleware/user";
 import { useState } from "react";
+import { Verified } from "lucide-react";
 
 const ProtectedRoute = ({ children }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -35,6 +36,9 @@ const ProtectedRoute = ({ children }) => {
               alt=""
               onClick={() => setShowMenu(!showMenu)}
             />
+            {user?.verified && (
+              <Verified className="text-green-500 bg-white rounded-4xl  absolute right-[35px] bottom-[10px]" />
+            )}
             <div
               className="w-[200px] bg-gray-100 absolute rounded-xl top-[100%]"
               style={{

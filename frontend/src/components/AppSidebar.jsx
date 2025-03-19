@@ -37,6 +37,7 @@ import { Info } from "lucide-react";
 import { BadgeInfoIcon } from "lucide-react";
 import { Upload } from "lucide-react";
 import { UploadCloud } from "lucide-react";
+import { Clipboard } from "lucide-react";
 
 const AppSidebar = () => {
   const { logout, user, fetchUser } = useUser();
@@ -78,17 +79,17 @@ const AppSidebar = () => {
         {
           name: "Manage Books",
           path: "/admin/books",
-          icon: <BookCopy className="text-[17px]" />,
+          icon: <Book className="text-[17px]" />,
         },
         {
           name: "Manage Users",
           path: "/admin/users",
-          icon: <UserSquare className="text-[17px]" />,
+          icon: <Users className="text-[17px]" />,
         },
         {
           name: "Issued Books",
           path: "/admin/issued-books",
-          icon: <ClipboardEdit className="text-[17px]" />,
+          icon: <Clipboard className="text-[17px]" />,
         },
         {
           name: "Overdue Books",
