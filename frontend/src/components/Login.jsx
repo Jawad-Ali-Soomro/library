@@ -9,8 +9,14 @@ import { LOGIN_SCHEMA } from "@/schema/USER_SCHEMA";
 import toast from "react-hot-toast";
 import { axiosInstance } from "@/utils/axiosInstance";
 import { useUser } from "@/middleware/user";
+import { useState } from "react";
+import { EyeClosed } from "lucide-react";
+import { Eye } from "lucide-react";
+import { LucideEyeClosed } from "lucide-react";
+import { LucideEye } from "lucide-react";
 
 const Login = () => {
+  const [showPassword, setShowPasword] = useState(false);
   const { login } = useUser();
   const {
     register,
@@ -49,13 +55,19 @@ const Login = () => {
               {errors.email?.message}
             </p>
           </div>
-          <div className="flex flex-col gap-1">
+          <div className="flex relative flex-col gap-1">
             <Label className={"pl-1 uppercase text-[10px]"}>Password</Label>
             <Input
-              type={"text"}
+              type={showPassword ? "text" : "password"}
               {...register("password")}
               className={"w-80  py-3"}
             />
+            <span
+              className="absolute top-6 right-2 cursor- pointer h-10"
+              onClick={() => setShowPasword(!showPassword)}
+            >
+              {showPassword ? <LucideEyeClosed /> : <LucideEye />}
+            </span>
             <p className="text-red-400 uppercase text-[12px] font-semibold text-sm mt-1">
               {errors.password?.message}
             </p>
