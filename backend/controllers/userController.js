@@ -1,5 +1,5 @@
-const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
+const User = require("../models/userModel");
 
 exports.register = async (req, res) => {
   try {
@@ -53,5 +53,42 @@ exports.getUserById = async (req, res) => {
     res.status(200).json(found_user);
   } catch (error) {
     return res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getAllUser = async (req, res) => {
+  try {
+    const users = await User.find();
+    return res.json({
+      users,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    console.log("Updating user:", userId);
+    console.log("Received Data:", req.body);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: req.body.data },
+      { new: true, runValidators: true }
+    ).select("-password");
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Profile updated successfully", user: updatedUser });
+  } catch (error) {
+    console.error("Update error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };

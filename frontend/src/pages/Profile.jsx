@@ -15,9 +15,11 @@ import {
 import { useEffect } from "react";
 import { UPDATE_SCHEMA } from "@/schema/UPDATE_SCHEMA";
 import { Textarea } from "@/components/ui/textarea";
+import { axiosInstance } from "@/utils/axiosInstance";
+import toast from "react-hot-toast";
 
 const Profile = () => {
-  const { user } = useUser();
+  const { user, logout } = useUser();
   const methods = useForm({
     resolver: yupResolver(UPDATE_SCHEMA),
     defaultValues: {
@@ -49,14 +51,24 @@ const Profile = () => {
         gender: user?.gender || "",
         phone: user?.phone || "",
         academic_year: user?.academic_year || "",
-        dateOfBirth: user?.dateOfBirth || "",
+        dateOfBirth: user?.dateOfBirth
+          ? new Date(user.dateOfBirth).toISOString().split("T")[0]
+          : "",
         address: user?.address || "",
       });
     }
   }, [user, reset]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("Updated Data:", data);
+    const response = await axiosInstance.put(`/user/${user?._id}`, {
+      data,
+    });
+    if (response.status === 200) {
+      toast.success("Profile updated successfully");
+      logout();
+      window.location.reload();
+    }
   };
 
   return (
@@ -82,11 +94,12 @@ const Profile = () => {
             <div className="flex flex-col gap-2 w-[300px]">
               <Label>Department</Label>
               <Select
+                defaultValue={user?.department || ""}
                 onValueChange={(value) => setValue("department", value)}
                 className="border p-2 w-full"
               >
                 <SelectTrigger className="w-[300px]">
-                  <SelectValue placeholder="Select Department"></SelectValue>
+                  <SelectValue placeholder="Select Department" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Computer Science">
@@ -102,6 +115,7 @@ const Profile = () => {
                   <SelectItem value="Mathematics">Mathematics</SelectItem>
                 </SelectContent>
               </Select>
+
               <p className="text-red-500">{errors.department?.message}</p>
             </div>
           </div>
@@ -114,11 +128,12 @@ const Profile = () => {
             <div className="flex flex-col gap-2 w-[300px]">
               <Label>Gender</Label>
               <Select
+                defaultValue={user?.gender || ""}
                 onValueChange={(value) => setValue("gender", value)}
                 className="border p-2 w-full"
               >
                 <SelectTrigger className="w-[300px]">
-                  <SelectValue placeholder="Select Gender"></SelectValue>
+                  <SelectValue placeholder="Select Gender" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Male">Male</SelectItem>
