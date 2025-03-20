@@ -3,20 +3,31 @@ import { Table, TableHead, TableRow } from "@/components/ui/table";
 import { useUser } from "@/middleware/user";
 import { axiosInstance } from "@/utils/axiosInstance";
 import { Button } from "@/components/ui/button";
+import toast from "react-hot-toast";
 
 const UserManage = () => {
   const { user } = useUser();
   const [users, setUsers] = useState([]);
+  const verifyUser = async (userId) => {
+    try {
+      const response = await axiosInstance.patch(`/user/${userId}`);
+      toast.success("User verified successfully");
+      fetchUsers();
+    } catch (error) {
+      toast.error("Error verifying user");
+      console.error("Error verifying user:", error);
+    }
+  }
 
+  const fetchUsers = async () => {
+    try {
+      const response = await axiosInstance.get("/user/all");
+      setUsers(response.data.users);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axiosInstance.get("/user/all");
-        setUsers(response.data.users);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
     fetchUsers();
   }, []);
 
@@ -69,6 +80,7 @@ const UserManage = () => {
                 {!user.verified && (
                   <Button
                     className={`w-80 h-10 uppercase bg-blue-500 hover:bg-blue-600 rounded-xl `}
+                    onClick={() => verifyUser(user._id)}
                   >
                     Verify User
                   </Button>

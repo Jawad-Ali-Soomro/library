@@ -84,45 +84,7 @@ const AdminDashboard = () => {
           </h1>
         </div>
       </div>
-      <div className="">
-        <Card className={" shadow-none border-none"}>
-          <CardContent className={"border-none shadow-none"}>
-            <ChartContainer
-              config={chartConfig}
-              className={"shadow-none border-none"}
-            >
-              <ResponsiveContainer height={300}>
-                <BarChart
-                  accessibilityLayer
-                  data={chartData}
-                  width={800}
-                  height={300}
-                >
-                  <CartesianGrid vertical={false} />
-                  <XAxis
-                    dataKey="month"
-                    tickLine={false}
-                    tickMargin={10}
-                    axisLine={false}
-                    tickFormatter={(value) => value.slice(0, 3)}
-                  />
-                  <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent indicator="dashed" />}
-                  />
-                  <Bar
-                    dataKey="desktop"
-                    fill="var(--color-desktop)"
-                    radius={4}
-                    s
-                  />
-                  <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-      </div>
+     
     </div>
   );
 };

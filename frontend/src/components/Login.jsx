@@ -63,7 +63,7 @@ const Login = () => {
               className={"w-80  py-3"}
             />
             <span
-              className="absolute top-6 right-2 cursor- pointer h-10"
+              className="absolute top-6 right-2 cursor-pointer h-10"
               onClick={() => setShowPasword(!showPassword)}
             >
               {showPassword ? <LucideEyeClosed /> : <LucideEye />}

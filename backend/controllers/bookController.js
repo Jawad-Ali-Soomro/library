@@ -123,7 +123,7 @@ exports.returnBook = async (req, res) => {
 
 exports.getAllBorrowedBooks = async (req, res) => {
   try {
-    const borrowed = await Borrow.find({})
+    const borrowed = await Borrow.find()
       .populate("book")
       .populate("borrower");
     res.json(borrowed);
@@ -134,3 +134,4 @@ exports.getAllBorrowedBooks = async (req, res) => {
     });
   }
 };
+

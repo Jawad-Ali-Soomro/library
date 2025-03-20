@@ -92,3 +92,22 @@ exports.updateProfile = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+
+exports.verifyUser = async (req, res) => {
+ try {
+  const {userId} = req.params
+  const findUser = await User.findById(userId)
+  if(!findUser) {
+    return res.status(404).json({ message: "User not found" })
+  }
+  findUser.verified = true
+  await findUser.save()
+  res.status(200).json({ message: "User found and updated" })
+ } catch (error) {
+  return res.status(500).json({ message:
+    "Server error", error: error.message })
+    
+ }
+
+}

@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import Borrowed from "./components/Borrowed";
 import BookManage from "./pages/BookManage";
 import UserManage from "./pages/UserManage";
+import BorrowedManage from "./pages/BorrowedManage";
 
 function App() {
   const cookie = (name) => {
@@ -72,6 +73,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <UserManage />
+                </ProtectedRoute>
+              }
+            />
+             <Route
+              path="/admin/issued-books"
+              element={
+                <ProtectedRoute>
+                  <BorrowedManage />
                 </ProtectedRoute>
               }
             />
