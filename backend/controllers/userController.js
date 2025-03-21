@@ -76,7 +76,7 @@ exports.updateProfile = async (req, res) => {
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { $set: req.body.data },
+      { $set: req.body },
       { new: true, runValidators: true }
     ).select("-password");
 

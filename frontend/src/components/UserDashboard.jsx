@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { Button } from "./ui/button";
 import toast from "react-hot-toast";
 import { useUser } from "@/middleware/user";
+import FullImage from "./FullImage";
 
 const UserDashboard = () => {
   const { user, fetchUser } = useUser();
@@ -21,6 +22,11 @@ const UserDashboard = () => {
   const [publishedYear, setPublishYear] = useState("");
   const [category, setCategory] = useState("");
   const [books, setBooks] = useState([]);
+  const [showIMage, setSHowIMage] = useState(false);
+  const [imgUrl, setImageUrl] = useState("")
+  const onClose = () => {
+    setSHowIMage(false);
+  }
   const departments = [
     "Information Technology",
     "Computer Science",
@@ -117,7 +123,7 @@ const UserDashboard = () => {
           </Select>
         </div>
       </div>
-      <div className="bottom gap-2 mt-10 flex flex-wrap justify-start wrap w-full">
+      <div className="bottom gap-2 mt-10 flex flex-wrap justify-between wrap w-full">
         {books?.map((book) => {
           return (
             <div className="rounded-md relative flex  w-[1/2] flex-col gap-2 p-5 items-end">
@@ -125,6 +131,7 @@ const UserDashboard = () => {
                 className="w-[350px] rounded-xl h-[450px]"
                 src={book?.image}
                 alt=""
+                onClick={() => {setSHowIMage(true); setImageUrl(book?.image)}}
               />
               <Button
                 className={"w-[100px] rounded-xl py-5 mt-2 uppercase"}
@@ -137,6 +144,11 @@ const UserDashboard = () => {
           );
         })}
       </div>
+          {
+            showIMage && (
+              <FullImage imageUrl={imgUrl} onClose={onClose} />
+            )
+          }
     </div>
   );
 };

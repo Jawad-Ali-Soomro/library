@@ -40,7 +40,7 @@ const UserManage = () => {
   return (
     <div className="flex flex-col  rounded">
       {users.some((u) => u._id !== user?._id) && (
-        <div className="main flex gap-2 wrap flex-wrap mt-10">
+        <div className="main flex gap-2 wrap flex-wrap mt-10 justify-between">
           {users.map((user) => (
             <div
               key={user._id}

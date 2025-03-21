@@ -41,6 +41,8 @@ export const UserContextProvider = ({ children }) => {
     localStorage.removeItem("role");
     setUser(null);
     setToken(null);
+    window.location.reload();
+    window.location.href = "/"
   };
 
   const fetchUser = async () => {

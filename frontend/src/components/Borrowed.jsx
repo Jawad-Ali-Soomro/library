@@ -1,11 +1,16 @@
 import { useUser } from "@/middleware/user";
 import React, { useEffect, useState } from "react";
+import FullImage from "./FullImage";
 
 const Borrowed = () => {
   const { user } = useUser();
   const [timers, setTimers] = useState({});
   console.log(user);
-
+  const [showimg, setShowIMg] = useState(false)
+  const [imgUrl, setIMgUrl] = useState("")
+  const onClose = () => {
+    setShowIMg(false);
+  }
   useEffect(() => {
     if (!user?.borrowedBooks?.length) return;
 
@@ -40,7 +45,7 @@ const Borrowed = () => {
 
   return (
     <div>
-      <div className="bottom gap-2 mt-10 flex flex-wrap justify-start wrap w-full">
+      <div className="bottom gap-2 mt-10 flex flex-wrap justify-between wrap w-full">
         {user?.borrowedBooks?.map((book) => (
           <div
             key={book?.id}
@@ -50,6 +55,7 @@ const Borrowed = () => {
               className="w-[350px] rounded-xl h-[450px]"
               src={book?.book?.image}
               alt={book?.book?.title || "Book Image"}
+              onClick={() => {setShowIMg(true); setIMgUrl(book?.book?.image)}}
             />
             <p className="px-5 w-50 flex justify-between items-center rounded-2xl text-black py-2 bg-gray-100 text-[15px] font-semibold mt-2">
               <span className="w-3 h-3 bg-gray-500 timer rounded-xl"></span>{" "}
@@ -58,6 +64,9 @@ const Borrowed = () => {
           </div>
         ))}
       </div>
+      {
+        showimg && <FullImage imageUrl={imgUrl} onClose={onClose} />
+      }
     </div>
   );
 };

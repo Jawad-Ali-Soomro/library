@@ -1,5 +1,6 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect, useState } from "react";
 import * as yup from "yup";
 import { useUser } from "@/middleware/user";
 import { Label } from "@/components/ui/label";
@@ -12,14 +13,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect } from "react";
-import { UPDATE_SCHEMA } from "@/schema/UPDATE_SCHEMA";
 import { Textarea } from "@/components/ui/textarea";
 import { axiosInstance } from "@/utils/axiosInstance";
 import toast from "react-hot-toast";
+import { uploadToPinata } from "@/constants/uploadImages";
+
+const UPDATE_SCHEMA = yup.object().shape({
+  username: yup.string().required("Username is required"),
+  department: yup.string().required("Department is required"),
+  roll_no: yup.string().required("Roll number is required"),
+  gender: yup.string().required("Gender is required"),
+  phone: yup.string().required("Phone number is required"),
+  academic_year: yup.string().required("Academic Year is required"),
+  dateOfBirth: yup.string().required("Date of Birth is required"),
+  address: yup.string().required("Address is required"),
+});
 
 const Profile = () => {
   const { user, logout } = useUser();
+  const [selectedFile, setSelectedFile] = useState(null);
   const methods = useForm({
     resolver: yupResolver(UPDATE_SCHEMA),
     defaultValues: {
@@ -61,9 +73,27 @@ const Profile = () => {
 
   const onSubmit = async (data) => {
     console.log("Updated Data:", data);
+    
+    let avatarUrl = user?.avatar || ""; 
+
+    if (selectedFile) {
+      try {
+        const pinataResponse = await uploadToPinata(selectedFile);
+        if (pinataResponse?.IpfsHash) {
+          avatarUrl = `https://orange-large-reindeer-667.mypinata.cloud/ipfs/${pinataResponse.IpfsHash}`;
+        }
+      } catch (error) {
+        console.error("Pinata Upload Failed:", error);
+        toast.error("Image upload failed");
+        return;
+      }
+    }
+
     const response = await axiosInstance.put(`/user/${user?._id}`, {
-      data,
+      ...data,
+      avatar: avatarUrl, 
     });
+
     if (response.status === 200) {
       toast.success("Profile updated successfully");
       logout();
@@ -78,61 +108,55 @@ const Profile = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-4 items-center"
         >
-          <div className="flex  items-center justify-center  w-[200px]">
+          {/* Profile Picture Upload */}
+          <div className="flex flex-col items-center relative">
             <img
               className="w-[200px] rounded-[50%] border h-[200px]"
-              src={user?.avatar || "default.jpg"}
-              alt=""
+              src={selectedFile ? URL.createObjectURL(selectedFile) : user?.avatar || "default.jpg"}
+              alt="Profile"
+            />
+            <input
+              type="file"
+              accept="image/*"
+              className="mt-2 w-full h-full absolute cursor-pointer opacity-0"
+              onChange={(e) => setSelectedFile(e.target.files[0])}
             />
           </div>
-          <div className="flex gap-10">
-            <div className="flex flex-col gap-2 w-[300px]">
+
+          {/* All Form Fields */}
+          <div className="grid gap-5">
+           <div className="flex gap-2">
+           <div className="w-[300px] gap-2 flex flex-col">
               <Label>Username</Label>
               <Input {...register("username")} placeholder="Enter username" />
               <p className="text-red-500">{errors.username?.message}</p>
             </div>
-            <div className="flex flex-col gap-2 w-[300px]">
-              <Label>Department</Label>
-              <Select
-                defaultValue={user?.department || ""}
-                onValueChange={(value) => setValue("department", value)}
-                className="border p-2 w-full"
-              >
-                <SelectTrigger className="w-[300px]">
-                  <SelectValue placeholder="Select Department" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Computer Science">
-                    Computer Science
-                  </SelectItem>
-                  <SelectItem value="Information Technology">
-                    Information Technology
-                  </SelectItem>
-                  <SelectItem value="English">English</SelectItem>
-                  <SelectItem value="Education">Education</SelectItem>
-                  <SelectItem value="Commerce">Commerce</SelectItem>
-                  <SelectItem value="Business">Business</SelectItem>
-                  <SelectItem value="Mathematics">Mathematics</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <p className="text-red-500">{errors.department?.message}</p>
-            </div>
-          </div>
-          <div className="flex gap-10">
-            <div className="flex flex-col gap-2 w-[300px]">
+            <div className="w-[300px] gap-2 flex flex-col">
               <Label>Roll No</Label>
-              <Input {...register("roll_no")} placeholder="Enter roll number" />
+              <Input {...register("roll_no")} placeholder="Enter Roll No" />
               <p className="text-red-500">{errors.roll_no?.message}</p>
             </div>
-            <div className="flex flex-col gap-2 w-[300px]">
+           </div>
+           <div className="flex gap-2">
+           <div className="w-[300px] gap-2 flex flex-col">
+              <Label>Phone</Label>
+              <Input {...register("phone")} placeholder="Enter Phone No" />
+              <p className="text-red-500">{errors.phone?.message}</p>
+            </div>
+            <div className="w-[300px] gap-2 flex flex-col">
+              <Label>Academic Year</Label>
+              <Input {...register("academic_year")} placeholder="Enter Academic Year" />
+              <p className="text-red-500">{errors.academic_year?.message}</p>
+            </div>
+           </div>
+           <div className="flex gap-2">
+            <div className="w-[300px] gap-2 flex flex-col">
               <Label>Gender</Label>
               <Select
                 defaultValue={user?.gender || ""}
                 onValueChange={(value) => setValue("gender", value)}
-                className="border p-2 w-full"
               >
-                <SelectTrigger className="w-[300px]">
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select Gender" />
                 </SelectTrigger>
                 <SelectContent>
@@ -141,51 +165,51 @@ const Profile = () => {
                   <SelectItem value="Other">Other</SelectItem>
                 </SelectContent>
               </Select>
-
               <p className="text-red-500">{errors.gender?.message}</p>
             </div>
-          </div>
-          <div className="flex gap-10">
-            <div className="flex flex-col gap-2 w-[300px]">
-              <Label>Phone</Label>
-              <Input {...register("phone")} placeholder="Enter phone number" />
-              <p className="text-red-500">{errors.phone?.message}</p>
+
+            <div className="w-[300px] gap-2 flex flex-col">
+              <Label>Department</Label>
+              <Select
+                defaultValue={user?.department || ""}
+                onValueChange={(value) => setValue("department", value)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Department" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Computer Science">Computer Science</SelectItem>
+                  <SelectItem value="Information Technology">Information Technology</SelectItem>
+                  <SelectItem value="English">English</SelectItem>
+                  <SelectItem value="Education">Education</SelectItem>
+                  <SelectItem value="Commerce">Commerce</SelectItem>
+                  <SelectItem value="Business">Business</SelectItem>
+                  <SelectItem value="Mathematics">Mathematics</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-red-500">{errors.department?.message}</p>
             </div>
-            <div className="flex flex-col gap-2 w-[300px]">
-              <Label>Academic Year</Label>
-              <Input
-                {...register("academic_year")}
-                placeholder="Enter academic year"
-              />
-              <p className="text-red-500">{errors.academic_year?.message}</p>
             </div>
+            <div className="w-[610px] gap-2 flex flex-col">
+              <Label>Date of Birth</Label>
+              <Input type="date" {...register("dateOfBirth")} />
+              <p className="text-red-500">{errors.dateOfBirth?.message}</p>
+            </div>
+            <div className="w-[610px] gap-2 flex flex-col">
+              <Label>Address</Label>
+              <Textarea {...register("address")} placeholder="Enter Address" />
+              <p className="text-red-500">{errors.address?.message}</p>
+            </div>
+
+           
           </div>
-          <div className="flex flex-col gap-2 w-[640px]">
-            <Label>Date of Birth</Label>
-            <Input type="date" {...register("dateOfBirth")} />
-            <p className="text-red-500">{errors.dateOfBirth?.message}</p>
-          </div>
-          <div className="flex flex-col gap-2 w-[640px]">
-            <Label>Address</Label>
-            <Textarea
-              {...register("address")}
-              placeholder="Enter address"
-              className="border p-2 w-full"
-            ></Textarea>
-            <p className="text-red-500">{errors.address?.message}</p>
-          </div>
-          <div className="flex w-full justify-between">
-            <Button
-              type="button"
-              className={
-                " w-[300px] bg-transparent text-black border border-gray-500 h-10"
-              }
-            >
+
+          {/* Buttons */}
+          <div className="flex gap-5">
+            <Button type="button" className="border w-[200px] h-10 border-gray-500 text-black bg-transparent">
               Cancel
             </Button>
-            <Button type="submit" className={" w-[330px] h-10"}>
-              Update Profile
-            </Button>
+            <Button type="submit" className={"w-[390px] h-10"}>Update Profile</Button>
           </div>
         </form>
       </FormProvider>

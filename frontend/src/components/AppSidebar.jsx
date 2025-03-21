@@ -109,20 +109,20 @@ const AppSidebar = () => {
   const navLinks = setNavLinks(role);
 
   return (
-    <Sidebar className={""}>
+    <Sidebar className={"gap-4"}>
       <SidebarHeader>
         <img className="w-[80%] ml-[10%] mt-10" src="/logo.png" alt="" />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className={"flex mt-10"}>
+            <SidebarMenu className={"flex mt-10 gap-3"}>
               {navLinks.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
                     className={
-                      "text-[16px] py-6 text-gray-600 hover:text-gray-900 rounded-xl"
+                      "text-[16px] py-6 px-3 text-gray-600 hover:text-gray-900 rounded-xl"
                     }
                     style={{
                       background:
