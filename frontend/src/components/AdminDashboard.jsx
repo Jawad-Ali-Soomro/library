@@ -1,26 +1,16 @@
 import { useUser } from "@/middleware/user";
 import { axiosInstance } from "@/utils/axiosInstance";
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-
-import { TrendingUp } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import {
-  Bar,
-  BarChart,
-  CartesianGrid,
+  PieChart,
+  Pie,
+  Label,
   ResponsiveContainer,
-  XAxis,
+  BarChart,
+  Bar,
 } from "recharts";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { TrendingUp } from "lucide-react";
 import {
   ChartContainer,
   ChartTooltip,
@@ -31,45 +21,61 @@ const AdminDashboard = () => {
   const { user } = useUser();
   const [users, setUsers] = useState([]);
   const [books, setBooks] = useState([]);
+  const [borrowed, setBorrowed] = useState([]);
 
+  // Fetch data
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axiosInstance.get("/user/all");
-        setUsers(response.data.users);
+        const usersResponse = await axiosInstance.get("/user/all");
+        setUsers(usersResponse.data.users);
+
+        const booksResponse = await axiosInstance.post("/book/get/all");
+        setBooks(booksResponse.data);
+
+        const borrowedResponse = await axiosInstance.get("/book/borrowed");
+        setBorrowed(borrowedResponse.data);
       } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error("Error fetching data:", error);
       }
     };
-    fetchUsers();
-    const fetchBooks = async () => {
-      const response = await axiosInstance.post("/book/get/all");
-      setBooks(response.data);
-    };
-    fetchBooks();
+
+    fetchData();
   }, []);
+
+  // Prepare chart data
   const chartData = [
-    { month: "January", desktop: 186, mobile: 80 },
-    { month: "February", desktop: 305, mobile: 200 },
-    { month: "March", desktop: 237, mobile: 120 },
-    { month: "April", desktop: 73, mobile: 190 },
-    { month: "May", desktop: 209, mobile: 130 },
+    { name: "Users", value: users?.length || 0, fill: "blue" },
+    { name: "Books", value: books?.length || 0, fill: "blueviolet" },
+    {
+      name: "Borrowed",
+      value: borrowed?.length || 0,
+      fill: "orange",
+    },
   ];
 
   const chartConfig = {
-    desktop: {
-      label: "Desktop",
+    value: {
+      label: "Value",
+    },
+    Users: {
+      label: "Users",
       color: "hsl(var(--chart-1))",
     },
-    mobile: {
-      label: "Mobile",
+    Books: {
+      label: "Books",
       color: "hsl(var(--chart-2))",
     },
+    Borrowed: {
+      label: "Borrowed Books",
+      color: "hsl(var(--chart-3))",
+    },
   };
+
   return (
-    <div className="flex w-full h-full flex flex-col align-end ">
-      <div className="cards flex justify-between">
-        <div className="card w-[49%] h-[400px] bg-gray-100 items-center justify-center flex-col flex">
+    <div className="flex w-full h-full flex-col">
+      <div className="cards flex justify-between mt-2">
+        <div className="card w-[49%] rounded-xl h-[400px] bg-blue-500 items-center text-white justify-center flex-col flex">
           <h1 className="uppercase text-[30px] font-semibold">
             Users Enrolled
           </h1>
@@ -77,14 +83,51 @@ const AdminDashboard = () => {
             {users?.length}
           </h1>
         </div>
-        <div className="card w-[49%] h-[400px] bg-gray-100 items-center justify-center flex-col flex">
+        <div className="card w-[49%] rounded-xl h-[400px] bg-[blueviolet] text-white items-center justify-center flex-col flex">
           <h1 className="uppercase text-[30px] font-semibold">Total Books</h1>
           <h1 className="uppercase text-[90px] font-semibold">
             {books?.length}
           </h1>
         </div>
       </div>
-     
+      <div className="cards flex justify-between mt-10">
+        <div className="card w-[49%] rounded-xl h-[400px] text-white bg-[orange] items-center justify-center flex-col flex">
+          <h1 className="uppercase text-[30px] font-semibold">
+            Borrowed Books
+          </h1>
+          <h1 className="uppercase text-[90px] font-semibold">
+            {borrowed?.length}
+          </h1>
+        </div>
+        <div className="card w-[49%] rounded-xl h-[400px] items-center justify-center flex-col flex">
+          <ChartContainer config={chartConfig} className="border h-full rounded-xl w-full">
+            <BarChart className="h-full" accessibilityLayer data={chartData}>
+              <ChartTooltip
+                cursor={{ fill: "rgba(0, 0, 0, 0.005)" }}
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    return (
+                      <ChartTooltipContent>
+                        <p className="text-white bg-gray-100 p-2 rounded">
+                          {payload[0].name}: {payload[0].value}
+                        </p>
+                      </ChartTooltipContent>
+                    );
+                  }
+                  return null;
+                }}
+              />
+              <Bar
+                dataKey="value"
+                name="name"
+                fill="fill"
+                radius={4}
+                className="rounded-xl"
+              />
+            </BarChart>
+          </ChartContainer>
+        </div>
+      </div>
     </div>
   );
 };

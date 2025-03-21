@@ -8,7 +8,7 @@ const bookSchema = new mongoose.Schema(
     publishedYear: { type: Number },
     image: { type: String, default: "" },
     isbn: { type: String, unique: true },
-    availableCopies: { type: Number, required: true, default: 1 },
+    availableCopies: { type: Number, required: true, },
     totalCopies: { type: Number, required: true, default: 1 },
     borrowedCopies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Borrow" }],
   },

@@ -10,6 +10,7 @@ import Borrowed from "./components/Borrowed";
 import BookManage from "./pages/BookManage";
 import UserManage from "./pages/UserManage";
 import BorrowedManage from "./pages/BorrowedManage";
+import UploadBook from "./pages/UploadBook";
 
 function App() {
   const cookie = (name) => {
@@ -76,12 +77,22 @@ function App() {
                 </ProtectedRoute>
               }
             />
-             <Route
+            <Route
               path="/admin/issued-books"
               element={
                 <ProtectedRoute>
                   <BorrowedManage />
                 </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/upload-books"
+              element={
+                window.localStorage.getItem("role") === "admin" && (
+                  <ProtectedRoute>
+                    <UploadBook />
+                  </ProtectedRoute>
+                )
               }
             />
           </Routes>

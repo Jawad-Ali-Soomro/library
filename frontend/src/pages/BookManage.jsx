@@ -1,6 +1,6 @@
 import React from "react";
 import { Input } from "../components/ui/input";
-import { Search } from "lucide-react";
+import {useNavigate} from 'react-router-dom'
 import {
   Select,
   SelectContent,
@@ -12,11 +12,10 @@ import { useState } from "react";
 import { axiosInstance } from "@/utils/axiosInstance";
 import { useEffect } from "react";
 import { Button } from "../components/ui/button";
-import toast from "react-hot-toast";
 import { useUser } from "@/middleware/user";
 
 const BookManage = () => {
-  const { user, fetchUser } = useUser();
+  const navigate = useNavigate()
   const [title, setTitle] = useState("");
   const [publishedYear, setPublishYear] = useState("");
   const [category, setCategory] = useState("");
@@ -31,10 +30,7 @@ const BookManage = () => {
     "Mathematics",
   ];
 
-  const isBorrowed = (bookId) => {
-    const borrowedBooks = user?.borrowedBooks || [];
-    return borrowedBooks.some((book) => book.book._id === bookId);
-  };
+  
 
   const fetchBooks = async () => {
     const response = await axiosInstance.post("/book/get/all", {
@@ -97,7 +93,7 @@ const BookManage = () => {
           </Select>
         </div>
         <div className="flex">
-          <Button className={"w-[200px] h-10"}>ADD NEW BOOK</Button>
+          <Button className={"w-[200px] h-10"} onClick={() => navigate("/admin/upload-books")}>ADD NEW BOOK</Button>
         </div>
       </div>
       <div className="bottom gap-2 mt-10 flex flex-wrap justify-between wrap w-full">
@@ -112,14 +108,12 @@ const BookManage = () => {
               <div className="flex w-full justify-between">
                 <Button
                   className={
-                    "w-[140px] bg-red-500 rounded-xl py-5 mt-2 uppercase"
+                    "w-[100%] bg-red-500 rounded-xl py-5 mt-2 uppercase"
                   }
                 >
                   Delete
                 </Button>
-                <Button className={"w-[200px] rounded-xl py-5 mt-2 uppercase"}>
-                  UPdate
-                </Button>
+               
               </div>
             </div>
           );

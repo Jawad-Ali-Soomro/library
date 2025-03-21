@@ -91,17 +91,8 @@ const AppSidebar = () => {
           path: "/admin/issued-books",
           icon: <Clipboard className="text-[17px]" />,
         },
-        {
-          name: "Overdue Books",
-          path: "/admin/overdue",
-          icon: <TimerOff className="text-[17px]" />,
-        },
-
-        {
-          name: "Settings",
-          path: "/admin/settings",
-          icon: <Settings className="text-[17px]" />,
-        },
+        
+      
       ];
     }
     return [];

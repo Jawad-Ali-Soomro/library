@@ -4,9 +4,11 @@ import { useUser } from "@/middleware/user";
 import { axiosInstance } from "@/utils/axiosInstance";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
+import { Input } from "@/components/ui/input";
 
 const UserManage = () => {
   const { user } = useUser();
+  const [username, setUsername] = useState("");
   const [users, setUsers] = useState([]);
   const verifyUser = async (userId) => {
     try {
@@ -37,8 +39,25 @@ const UserManage = () => {
       .map((word) => word[0])
       .join("");
 
+      const handleInputChange = (e) => {
+        const inputValue = e.target.value.toLowerCase();
+        inputValue === "" ? fetchUsers() : this
+        setUsername(inputValue);
+      
+        const filteredUsers = users.filter((u) => 
+          u.username.toLowerCase().includes(inputValue)
+        );
+      
+        setUsers(filteredUsers); 
+      };
+      
+
   return (
-    <div className="flex flex-col  rounded">
+   <div className="flex flex-col">
+    <div className="flex justify-end mt-10 w-[100%]">
+      <Input value={username} onChange={handleInputChange} className={"w-[300px]"} />
+    </div>
+     <div className="flex flex-col  rounded">
       {users.some((u) => u._id !== user?._id) && (
         <div className="main flex gap-2 wrap flex-wrap mt-10 justify-between">
           {users.map((user) => (
@@ -107,6 +126,7 @@ const UserManage = () => {
         </div>
       )}
     </div>
+   </div>
   );
 };
 
