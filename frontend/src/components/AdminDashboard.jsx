@@ -100,7 +100,7 @@ const AdminDashboard = () => {
           </h1>
         </div>
         <div className="card w-[49%] rounded-xl h-[400px] items-center justify-center flex-col flex">
-          <ChartContainer config={chartConfig} className="border h-full rounded-xl w-full">
+          <ChartContainer config={chartConfig} className=" h-full rounded-xl w-full">
             <BarChart className="h-full" accessibilityLayer data={chartData}>
               <ChartTooltip
                 cursor={{ fill: "rgba(0, 0, 0, 0.005)" }}
