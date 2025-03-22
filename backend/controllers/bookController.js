@@ -123,9 +123,7 @@ exports.returnBook = async (req, res) => {
 
 exports.getAllBorrowedBooks = async (req, res) => {
   try {
-    const borrowed = await Borrow.find()
-      .populate("book")
-      .populate("borrower");
+    const borrowed = await Borrow.find().populate("book").populate("borrower");
     res.json(borrowed);
   } catch (error) {
     res.json({
@@ -135,3 +133,20 @@ exports.getAllBorrowedBooks = async (req, res) => {
   }
 };
 
+exports.deleteBookAndAssociatedData = async (req, res) => {
+  try {
+    const { bookId } = req.params;
+    const book = await Book.findById(bookId);
+    if (!book) {
+      throw new Error("Book not found");
+    }
+    await Borrow.deleteMany({ book: bookId });
+    await Book.findByIdAndDelete(bookId);
+    return res.status(200).json({
+      message: `Book with ID ${bookId} and associated borrow records deleted successfully.`,
+    });
+  } catch (error) {
+    console.error("Error deleting book and associated data:", error);
+    throw error;
+  }
+};

@@ -7,6 +7,7 @@ const {
   borrowBooks,
   returnBook,
   getAllBorrowedBooks,
+  deleteBookAndAssociatedData,
 } = require("../controllers/bookController");
 const bookRoute = express.Router();
 
@@ -17,5 +18,6 @@ bookRoute.post("/update/:id", updateBook);
 bookRoute.post("/borrow", borrowBooks);
 bookRoute.post("/return", returnBook);
 bookRoute.get("/borrowed", getAllBorrowedBooks);
+bookRoute.delete("/delete/:bookId", deleteBookAndAssociatedData);
 
 module.exports = bookRoute;

@@ -12,7 +12,7 @@ import { useState } from "react";
 import { axiosInstance } from "@/utils/axiosInstance";
 import { useEffect } from "react";
 import { Button } from "../components/ui/button";
-import { useUser } from "@/middleware/user";
+import toast from "react-hot-toast";
 
 const BookManage = () => {
   const navigate = useNavigate()
@@ -29,6 +29,14 @@ const BookManage = () => {
     "English",
     "Mathematics",
   ];
+
+  const handleDelete = async (bookId) => {
+    const response = await axiosInstance.delete(`/book/delete/${bookId}`);
+    if (response.status == 200) {
+      toast.success("Book deleted successfully");
+      await fetchBooks();
+    }
+  }
 
   
 
@@ -110,6 +118,7 @@ const BookManage = () => {
                   className={
                     "w-[100%] bg-red-500 rounded-xl py-5 mt-2 uppercase"
                   }
+                  onClick={() => handleDelete(book?._id)}
                 >
                   Delete
                 </Button>
