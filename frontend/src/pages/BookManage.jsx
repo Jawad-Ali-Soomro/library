@@ -109,14 +109,14 @@ const BookManage = () => {
           return (
             <div className="rounded-md relative flex  w-[1/2] flex-col gap-2 p-5 items-end">
               <img
-                className="w-[350px] rounded-xl h-[450px]"
+                className="w-[350px] rounded h-[450px]"
                 src={book?.image}
                 alt=""
               />
               <div className="flex w-full justify-between">
                 <Button
                   className={
-                    "w-[100%] bg-red-500 rounded-xl py-5 mt-2 uppercase"
+                    "w-[100%] bg-red-500 rounded py-5 mt-2 uppercase"
                   }
                   onClick={() => handleDelete(book?._id)}
                 >

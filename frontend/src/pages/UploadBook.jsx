@@ -53,7 +53,7 @@ const UploadBook = () => {
 
   return (
     <div className="flex gap-2 mt-10 justify-center items-center h-[80vh]">
-      <div className="left-image flex w-[350px] h-[450px] rounded-xl relative overflow-hidden border">
+      <div className="left-image flex w-[350px] h-[450px] rounded relative overflow-hidden border">
         {preview ? (
           <img
             src={preview}

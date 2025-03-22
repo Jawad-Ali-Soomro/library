@@ -128,13 +128,13 @@ const UserDashboard = () => {
           return (
             <div className="rounded-md relative flex  w-[1/2] flex-col gap-2 p-5 items-end">
               <img
-                className="w-[350px] rounded-xl h-[450px]"
+                className="w-[350px] rounded h-[450px]"
                 src={book?.image}
                 alt=""
                 onClick={() => {setSHowIMage(true); setImageUrl(book?.image)}}
               />
               <Button
-                className={"w-[100px] rounded-xl py-5 mt-2 uppercase"}
+                className={"w-[100px] rounded py-5 mt-2 uppercase"}
                 onClick={() => borrowBook(book?._id)}
                 disabled={isBorrowed(book._id)}
               >

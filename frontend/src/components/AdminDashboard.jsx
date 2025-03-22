@@ -75,7 +75,7 @@ const AdminDashboard = () => {
   return (
     <div className="flex w-full h-full flex-col">
       <div className="cards flex justify-between mt-2">
-        <div className="card w-[49%] rounded-xl h-[400px] bg-blue-500 items-center text-white justify-center flex-col flex">
+        <div className="card w-[49%] rounded h-[400px] bg-blue-500 items-center text-white justify-center flex-col flex">
           <h1 className="uppercase text-[30px] font-semibold">
             Users Enrolled
           </h1>
@@ -83,7 +83,7 @@ const AdminDashboard = () => {
             {users?.length}
           </h1>
         </div>
-        <div className="card w-[49%] rounded-xl h-[400px] bg-[blueviolet] text-white items-center justify-center flex-col flex">
+        <div className="card w-[49%] rounded h-[400px] bg-[blueviolet] text-white items-center justify-center flex-col flex">
           <h1 className="uppercase text-[30px] font-semibold">Total Books</h1>
           <h1 className="uppercase text-[90px] font-semibold">
             {books?.length}
@@ -91,7 +91,7 @@ const AdminDashboard = () => {
         </div>
       </div>
       <div className="cards flex justify-between mt-10">
-        <div className="card w-[49%] rounded-xl h-[400px] text-white bg-[orange] items-center justify-center flex-col flex">
+        <div className="card w-[49%] rounded h-[400px] text-white bg-[orange] items-center justify-center flex-col flex">
           <h1 className="uppercase text-[30px] font-semibold">
             Borrowed Books
           </h1>
@@ -99,8 +99,8 @@ const AdminDashboard = () => {
             {borrowed?.length}
           </h1>
         </div>
-        <div className="card w-[49%] rounded-xl h-[400px] items-center justify-center flex-col flex">
-          <ChartContainer config={chartConfig} className=" h-full rounded-xl w-full">
+        <div className="card w-[49%] rounded h-[400px] items-center justify-center flex-col flex">
+          <ChartContainer config={chartConfig} className=" h-full rounded w-full">
             <BarChart className="h-full" accessibilityLayer data={chartData}>
               <ChartTooltip
                 cursor={{ fill: "rgba(0, 0, 0, 0.005)" }}
@@ -122,7 +122,7 @@ const AdminDashboard = () => {
                 name="name"
                 fill="fill"
                 radius={4}
-                className="rounded-xl"
+                className="rounded"
               />
             </BarChart>
           </ChartContainer>

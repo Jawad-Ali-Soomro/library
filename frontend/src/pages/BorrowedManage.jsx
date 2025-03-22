@@ -60,7 +60,7 @@ const BorrowedManage = () => {
             className="rounded-md relative flex flex-col gap-2 p-2"
           >
             <img
-              className="w-[350px] rounded-xl h-[450px]"
+              className="w-[350px] rounded h-[450px]"
               src={book?.book?.image}
               alt={book?.book?.title}
             />
@@ -73,7 +73,7 @@ const BorrowedManage = () => {
                 />
                 <h1>{book?.borrower?.username}</h1>
               </div>
-              <div className="flex px-3 py-2 bg-gray-100 rounded-xl border">
+              <div className="flex px-3 py-2 bg-gray-100 rounded border">
                 {formatDate(book?.borrowedAt)}
               </div>
             </div>
@@ -81,19 +81,19 @@ const BorrowedManage = () => {
               <div
                 className={`flex items-center gap-5 px-5 py-2 ${
                   book?.returnedAt ? "bg-green-200" : "bg-gray-100"
-                } text-black rounded-xl border`}
+                } text-black rounded border`}
               >
                 {book.returnedAt ? (
                   <TimerOff size={"18"} />
                 ) : (
-                  <span className="timer w-2 h-2 bg-white rounded"></span>
+                  <span className="timer w-2 h-2 bg-white rounded-xl"></span>
                 )}
                 {book.returnedAt
                   ? formatDate(book?.returnedAt)
                   : formatDate(book?.dueDate)}
               </div>
               <Button
-                className="w-[150px] rounded-xl py-5 uppercase"
+                className="w-[150px] rounded py-5 uppercase"
                 onClick={() => returnBook(book?._id)}
                 disabled={book?.returnedAt}
               >

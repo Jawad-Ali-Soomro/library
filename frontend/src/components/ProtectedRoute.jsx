@@ -26,7 +26,7 @@ const ProtectedRoute = ({ children }) => {
           <header className="w-full fixed top-0 left-0 py-3 z-9 bg-white min-h-10 border-b border-gray-200 pr-10 flex justify-end gap-5 items-center">
             <p className="cursor-pointer font-semibold relative">
               <span className="text-gray-500">Howdy,</span> {user?.username}{" "}
-              {/* <span className="absolute px-4 py-1 rounded-xl capitalize font-semibold text-[10px] bg-[black] text-white bottom-6 right-[-30px] font-normal">
+              {/* <span className="absolute px-4 py-1 rounded capitalize font-semibold text-[10px] bg-[black] text-white bottom-6 right-[-30px] font-normal">
                 {user?.role}
               </span> */}
             </p>
@@ -40,7 +40,7 @@ const ProtectedRoute = ({ children }) => {
               <Verified className="text-green-500 bg-white rounded-4xl  absolute right-[35px] bottom-[10px]" />
             )}
             <div
-              className="w-[200px] bg-gray-100 absolute rounded-xl top-[100%]"
+              className="w-[200px] bg-gray-100 absolute rounded top-[100%]"
               style={{
                 maxWidth: showMenu ? "100%" : "0",
                 overflow: "hidden",
@@ -50,16 +50,16 @@ const ProtectedRoute = ({ children }) => {
               <ul className="flex flex-col gap-2 transition-3s">
                 <li
                   onClick={() => navigate("/profile")}
-                  className="w-full cursor-pointer py-2 bg-white flex items-center justify-center uppercase rounded-xl border"
+                  className="w-full cursor-pointer py-2 bg-white flex items-center justify-center uppercase rounded border"
                 >
                   Profile
                 </li>
-                <li className="w-full cursor-pointer py-2 bg-white flex items-center justify-center uppercase rounded-xl border">
+                <li className="w-full cursor-pointer py-2 bg-white flex items-center justify-center uppercase rounded border">
                   Settings
                 </li>
                 <li
                   onClick={() => logout() + window.location.reload()}
-                  className="w-full cursor-pointer bg-red-500 flex items-center justify-center uppercase text-white py-2 rounded-xl"
+                  className="w-full cursor-pointer bg-red-500 flex items-center justify-center uppercase text-white py-2 rounded"
                 >
                   Logout
                 </li>

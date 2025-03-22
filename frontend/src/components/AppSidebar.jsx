@@ -113,7 +113,7 @@ const AppSidebar = () => {
                   <SidebarMenuButton
                     asChild
                     className={
-                      "text-[16px] py-6 px-3 text-gray-600 hover:text-gray-900 rounded-xl"
+                      "text-[16px] py-6 px-3 text-gray-600 hover:text-gray-900 rounded"
                     }
                     style={{
                       background:

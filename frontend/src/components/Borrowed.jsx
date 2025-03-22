@@ -52,7 +52,7 @@ const Borrowed = () => {
             className="rounded-md relative flex w-[1/2] flex-col gap-2 p-5 items-end"
           >
             <img
-              className="w-[350px] rounded-xl h-[450px]"
+              className="w-[350px] rounded h-[450px]"
               src={book?.book?.image}
               alt={book?.book?.title || "Book Image"}
               onClick={() => {setShowIMg(true); setIMgUrl(book?.book?.image)}}
