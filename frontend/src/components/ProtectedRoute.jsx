@@ -4,7 +4,6 @@ import { SidebarProvider, SidebarTrigger } from "./ui/sidebar";
 import { useUser } from "@/middleware/user";
 import { useState } from "react";
 import { Verified } from "lucide-react";
-import Chatbot from "./Chatbot";
 
 const ProtectedRoute = ({ children }) => {
   const [showMenu, setShowMenu] = useState(false);
