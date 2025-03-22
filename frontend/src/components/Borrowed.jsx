@@ -5,7 +5,6 @@ import FullImage from "./FullImage";
 const Borrowed = () => {
   const { user } = useUser();
   const [timers, setTimers] = useState({});
-  console.log(user);
   const [showimg, setShowIMg] = useState(false)
   const [imgUrl, setIMgUrl] = useState("")
   const onClose = () => {

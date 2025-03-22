@@ -18,7 +18,7 @@ function App() {
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(";").shift();
   };
-  const token = cookie("token");
+  const token = window.localStorage.getItem("token");
   return (
     <>
       <Toaster

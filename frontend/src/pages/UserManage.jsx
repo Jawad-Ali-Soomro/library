@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import {useNavigate} from 'react-router-dom'
 import { Table, TableHead, TableRow } from "@/components/ui/table";
 import { useUser } from "@/middleware/user";
 import { axiosInstance } from "@/utils/axiosInstance";
@@ -51,7 +52,7 @@ const UserManage = () => {
         setUsers(filteredUsers); 
       };
       
-
+      const navigate = useNavigate()
   return (
    <div className="flex flex-col">
     <div className="flex justify-end mt-10 w-[100%]">
@@ -116,6 +117,9 @@ const UserManage = () => {
                     className={`w-39 h-10 uppercase bg-gray-900 rounded  ${
                       user.verified ? "mt-12" : ""
                     }`}
+                    onClick={() =>
+                      navigate(`/admin/issued-books?username=${user.username}`)
+                    }
                   >
                     Books
                   </Button>

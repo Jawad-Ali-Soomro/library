@@ -1,60 +1,63 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Cookies from "universal-cookie";
-import { useState } from "react";
-import { useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "./user";
 import { axiosInstance } from "@/utils/axiosInstance";
 
 export const UserContextProvider = ({ children }) => {
   const cookies = new Cookies();
+  const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
-  const storedUser = cookies.get("user");
-  const storedToken = cookies.get("token");
+
   useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("token");
+
     if (storedUser && storedToken) {
-      setUser(storedUser);
+      setUser(JSON.parse(storedUser)); // ✅ Parse JSON string
       setToken(storedToken);
     }
   }, []);
+
   const login = (userData, authToken) => {
     localStorage.setItem("role", userData.role);
-    cookies.set("user", JSON.stringify(userData), {
-      path: "/",
-      maxAge: 7 * 24 * 60 * 60,
-    });
-    cookies.set("token", authToken, { path: "/", maxAge: 7 * 24 * 60 * 60 });
+    localStorage.setItem("user", JSON.stringify(userData)); // ✅ No extra options
+    localStorage.setItem("token", authToken);
 
     setUser(userData);
     setToken(authToken);
-
     setLoading(false);
-    <Navigate to="/dashboard" />;
+
+    navigate("/"); // ✅ Correct way to navigate
   };
+
   const logout = () => {
-    cookies.remove("user", { path: "/" });
-    cookies.remove("token", { path: "/" });
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
     localStorage.removeItem("role");
+
     setUser(null);
     setToken(null);
-    window.location.reload();
-    window.location.href = "/"
+
+    window.location.href = "/"; // ✅ Reload to home page
   };
 
   const fetchUser = async () => {
     if (!user?._id) return;
-    const response = await axiosInstance.post(`/user/${user?._id}`);
-    setUser(response.data);
-    cookies.set("user", JSON.stringify(response.data), {
-      path: "/",
-      maxAge: 7 * 24 * 60 * 60,
-    });
-    cookies.set("token", storedToken, { path: "/", maxAge: 7 * 24 * 60 * 60 });
+    
+    try {
+      const response = await axiosInstance.get(`/user/${user._id}`); // ✅ Use GET instead of POST
+      setUser(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
   };
+
   return (
     <UserContext.Provider
       value={{ user, token, login, logout, fetchUser, loading, setLoading }}

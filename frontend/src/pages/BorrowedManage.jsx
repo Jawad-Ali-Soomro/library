@@ -9,6 +9,14 @@ import toast from "react-hot-toast";
 const BorrowedManage = () => {
   const [books, setBooks] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get("username");
+    if (username) {
+      setSearchQuery(username);
+    }
+  }, []);
+  
 
   const fetchBorrowed = async () => {
     try {
@@ -33,7 +41,6 @@ const BorrowedManage = () => {
     fetchBorrowed();
   }, []);
 
-  // Filter books based on title or borrower username
   const filteredBooks = books.filter((book) => {
     const titleMatch = book?.book?.title
       ?.toLowerCase()

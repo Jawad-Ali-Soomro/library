@@ -14,8 +14,9 @@ const ProtectedRoute = ({ children }) => {
     if (parts.length === 2) return parts.pop().split(";").shift();
   };
 
+
   const navigate = useNavigate();
-  const token = cookie("token");
+  const token = window.localStorage.getItem("token");
 
   return token ? (
     <div className="flex">
