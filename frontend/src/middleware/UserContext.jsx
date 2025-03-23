@@ -32,7 +32,7 @@ export const UserContextProvider = ({ children }) => {
     setToken(authToken);
     setLoading(false);
 
-    navigate("/"); // ✅ Correct way to navigate
+    navigate("/");
   };
 
   const logout = () => {
