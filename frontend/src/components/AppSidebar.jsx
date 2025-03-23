@@ -38,6 +38,7 @@ import { BadgeInfoIcon } from "lucide-react";
 import { Upload } from "lucide-react";
 import { UploadCloud } from "lucide-react";
 import { Clipboard } from "lucide-react";
+import { BellElectric } from "lucide-react";
 
 const AppSidebar = () => {
   const { logout, user, fetchUser } = useUser();
@@ -54,6 +55,11 @@ const AppSidebar = () => {
           ...(user?.avatar === "" || user?.avatar === null
             ? { infoIcon: <UploadCloud className="text-[17px]" /> } // Add infoIcon if avatar is empty or null
             : {}), // Otherwise, add nothing
+        },
+        {
+          name: "Notifications",
+          path: "/notifications",
+          icon: <BellElectric />
         },
         {
           name: "Borrowed Books",

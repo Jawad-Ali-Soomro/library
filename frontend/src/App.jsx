@@ -11,6 +11,7 @@ import BookManage from "./pages/BookManage";
 import UserManage from "./pages/UserManage";
 import BorrowedManage from "./pages/BorrowedManage";
 import UploadBook from "./pages/UploadBook";
+import Notification from "./pages/Notification";
 
 function App() {
   const cookie = (name) => {
@@ -69,6 +70,14 @@ function App() {
                 </ProtectedRoute>
               }
             />{" "}
+             <Route
+              path="/notifications"
+              element={
+                <ProtectedRoute>
+                  <Notification />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/admin/users"
               element={

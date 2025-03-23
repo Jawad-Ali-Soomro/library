@@ -24,6 +24,8 @@ const UserDashboard = () => {
   const [books, setBooks] = useState([]);
   const [showIMage, setSHowIMage] = useState(false);
   const [imgUrl, setImageUrl] = useState("")
+  const [borrowedState, setBorrowedState] = useState(false)
+  console.log(borrowedState)
   const onClose = () => {
     setSHowIMage(false);
   }
@@ -60,20 +62,22 @@ const UserDashboard = () => {
         userId: user?._id,
         bookId,
       });
-      if (response.data.success) {
+      if (response.status === 200) {
         toast.success("Book borrowed successfully");
+        fetchUser()
       } else {
         toast.error("Failed to borrow book");
       }
+      console.log(response)
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.error(error);
     }
   };
 
   useEffect(() => {
     fetchBooks();
-    fetchUser();
-  });
+    fetchUser()
+  }, [title, publishedYear, category, borrowedState]);
   const years = [
     "2018",
     "2019",

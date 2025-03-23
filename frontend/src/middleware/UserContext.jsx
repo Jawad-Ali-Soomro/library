@@ -50,7 +50,7 @@ export const UserContextProvider = ({ children }) => {
     if (!user?._id) return;
     
     try {
-      const response = await axiosInstance.get(`/user/${user._id}`); // ✅ Use GET instead of POST
+      const response = await axiosInstance.post(`/user/${user._id}`);
       setUser(response.data);
       localStorage.setItem("user", JSON.stringify(response.data));
     } catch (error) {

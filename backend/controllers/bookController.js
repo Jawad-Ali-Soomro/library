@@ -1,6 +1,7 @@
 const Book = require("../models/bookModel");
 const User = require("../models/userModel");
 const Borrow = require("../models/borrowModel");
+const Notification = require("../models/notifications");
 exports.getAllBooks = async (req, res) => {
   try {
     let filter = {};
@@ -77,8 +78,6 @@ exports.borrowBooks = async (req, res) => {
   if (findBook.availableCopies < 1) {
     return res.status(400).json({ message: "Book is not available" });
   }
-  const today = new Date();
-  const futureDate = new Date();
   const borrowed = await Borrow.create({
     book: findBook._id,
     borrower: findUser._id,
@@ -86,8 +85,17 @@ exports.borrowBooks = async (req, res) => {
   findUser.borrowedBooks.push(borrowed._id);
   findBook.availableCopies--;
   findBook.borrowedCopies.push(borrowed._id);
+  await Notification.create({
+    user: findUser._id,
+    type: "reservation",
+    message: `You have a new reservation for book ${findBook.title}`,
+  });
   await findUser.save();
   await findBook.save();
+  return res.status(200).json({
+    message: "Book borrowed successfully",
+    borrowed,
+  });
 };
 
 exports.returnBook = async (req, res) => {
@@ -115,8 +123,12 @@ exports.returnBook = async (req, res) => {
   await findBorrow.save();
   await findUser.save();
   await findBook.save();
-
-  return res.json({
+  await Notification.create({
+    user: findUser._id,
+    type: "reservation",
+    message: `You have returned book ${findBook.title}`,
+  });
+  return res.status(200).json({
     message: "Book returned successfully",
   });
 };
@@ -148,5 +160,16 @@ exports.deleteBookAndAssociatedData = async (req, res) => {
   } catch (error) {
     console.error("Error deleting book and associated data:", error);
     throw error;
+  }
+};
+
+exports.getUserNotifications = async (req, res) => {
+  const { userId } = req.params;
+  const userNotifications = await Notification.find({user: userId})
+  if(userNotifications) {
+    res.status(200).json(userNotifications);
+  }
+  else {
+    res.status(404).json({ message: "User not found" });
   }
 };
