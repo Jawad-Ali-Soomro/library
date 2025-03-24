@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+const Notification = require("../models/notifications")
 
 exports.register = async (req, res) => {
   try {
@@ -71,8 +72,7 @@ exports.updateProfile = async (req, res) => {
   try {
     const { userId } = req.params;
 
-    console.log("Updating user:", userId);
-    console.log("Received Data:", req.body);
+    
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
@@ -103,6 +103,11 @@ exports.verifyUser = async (req, res) => {
   }
   findUser.verified = true
   await findUser.save()
+  await Notification.create({
+    user: findUser._id,
+    type: "announcement",
+    message: "Your account has been verified",
+  })
   res.status(200).json({ message: "User found and updated" })
  } catch (error) {
   return res.status(500).json({ message:
@@ -111,3 +116,26 @@ exports.verifyUser = async (req, res) => {
  }
 
 }
+
+exports.UnverifyUser = async (req, res) => {
+  try {
+   const {userId} = req.params
+   const findUser = await User.findById(userId)
+   if(!findUser) {
+     return res.status(404).json({ message: "User not found" })
+   }
+   findUser.verified = false
+   await findUser.save()
+   await Notification.create({
+    user: findUser._id,
+    type: "announcement",
+    message: "Your account has been suspended",
+  })
+   res.status(200).json({ message: "User found and updated" })
+  } catch (error) {
+   return res.status(500).json({ message:
+     "Server error", error: error.message })
+     
+  }
+ 
+ }

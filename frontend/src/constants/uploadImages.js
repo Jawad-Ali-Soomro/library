@@ -26,7 +26,6 @@ export const uploadToPinata = async (file) => {
       },
     });
 
-    console.log("Uploaded to Pinata:", res.data);
     return res.data; // Returns IPFS Hash (CID)
   } catch (error) {
     console.error("Error uploading to Pinata:", error);

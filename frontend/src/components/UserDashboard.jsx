@@ -25,7 +25,6 @@ const UserDashboard = () => {
   const [showIMage, setSHowIMage] = useState(false);
   const [imgUrl, setImageUrl] = useState("")
   const [borrowedState, setBorrowedState] = useState(false)
-  console.log(borrowedState)
   const onClose = () => {
     setSHowIMage(false);
   }
@@ -57,6 +56,9 @@ const UserDashboard = () => {
     if (user.borrowedBooks.length >= 4) {
       return toast.error("Borrow Limit Exceeded");
     }
+    if (!user.verified) {
+      return toast.error("Your account has not been verified");
+    }
     try {
       const response = await axiosInstance.post(`/book/borrow`, {
         userId: user?._id,
@@ -68,7 +70,6 @@ const UserDashboard = () => {
       } else {
         toast.error("Failed to borrow book");
       }
-      console.log(response)
     } catch (error) {
       console.error(error);
     }

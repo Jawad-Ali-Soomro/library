@@ -21,6 +21,16 @@ const UserManage = () => {
       console.error("Error verifying user:", error);
     }
   }
+  const unVerifyUser = async (userId) => {
+    try {
+      const response = await axiosInstance.patch(`/user/unverify/${userId}`);
+      toast.success("User Suspended successfully");
+      fetchUsers();
+    } catch (error) {
+      toast.error("Error verifying user");
+      console.error("Error verifying user:", error);
+    }
+  }
 
   const fetchUsers = async () => {
     try {
@@ -110,8 +120,10 @@ const UserManage = () => {
                     className={`w-39 h-10 uppercase bg-red-500 hover:-bg-red-600 rounded ${
                       user.verified ? "mt-12" : ""
                     }`}
+                    onClick={() => unVerifyUser(user._id)}
+                    disabled={!user.verified}
                   >
-                    Delete User
+                    Suspend User
                   </Button>
                   <Button
                     className={`w-39 h-10 uppercase bg-gray-900 rounded  ${

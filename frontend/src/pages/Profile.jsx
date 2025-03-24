@@ -72,7 +72,6 @@ const Profile = () => {
   }, [user, reset]);
 
   const onSubmit = async (data) => {
-    console.log("Updated Data:", data);
     
     let avatarUrl = user?.avatar || ""; 
 
