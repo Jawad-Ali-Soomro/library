@@ -24,7 +24,15 @@ const UserDashboard = () => {
   const [books, setBooks] = useState([]);
   const [showIMage, setSHowIMage] = useState(false);
   const [imgUrl, setImageUrl] = useState("")
-  const [borrowedState, setBorrowedState] = useState(false)
+  const [imageData, setImageData] = useState(null)
+    useEffect(() => {
+      const params = new URLSearchParams(window.location.search);
+      const bookName = params.get("bookName");
+      if (bookName) {
+        setTitle(bookName);
+      }
+    }, []);
+
   const onClose = () => {
     setSHowIMage(false);
   }
@@ -78,7 +86,7 @@ const UserDashboard = () => {
   useEffect(() => {
     fetchBooks();
     fetchUser()
-  }, [title, publishedYear, category, borrowedState]);
+  }, [title, publishedYear, category]);
   const years = [
     "2018",
     "2019",
@@ -136,7 +144,7 @@ const UserDashboard = () => {
                 className="w-[350px] rounded h-[450px]"
                 src={book?.image}
                 alt=""
-                onClick={() => {setSHowIMage(true); setImageUrl(book?.image)}}
+                onClick={() => {setSHowIMage(true); setImageUrl(book?.image); setImageData(book)}}
               />
               <Button
                 className={"w-[100px] rounded py-5 mt-2 uppercase"}
@@ -151,7 +159,7 @@ const UserDashboard = () => {
       </div>
           {
             showIMage && (
-              <FullImage imageUrl={imgUrl} onClose={onClose} />
+              <FullImage imageUrl={imgUrl} onClose={onClose} data={imageData} />
             )
           }
     </div>

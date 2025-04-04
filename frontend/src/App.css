@@ -61,3 +61,15 @@ Button {
     scale: 1.5;
   }
 }
+
+.animatePop {
+  animation: animatePop 0.5s ease-in-out;
+}
+
+@keyframes animatePop {
+  from {
+    transform: translateY(100px);
+  } to {
+    transform: translateY(0);
+  }
+}
