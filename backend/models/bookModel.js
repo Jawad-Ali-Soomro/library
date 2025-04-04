@@ -11,6 +11,7 @@ const bookSchema = new mongoose.Schema(
     availableCopies: { type: Number, required: true, },
     totalCopies: { type: Number, required: true, default: 1 },
     borrowedCopies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Borrow" }],
+    shelfNo: { type: Number, required: true },
   },
   { timestamps: true }
 );
