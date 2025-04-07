@@ -53,8 +53,8 @@ const AppSidebar = () => {
           path: "/profile",
           icon: <Settings className="text-[17px]" />,
           ...(user?.avatar === "" || user?.avatar === null
-            ? { infoIcon: <UploadCloud className="text-[17px]" /> } // Add infoIcon if avatar is empty or null
-            : {}), // Otherwise, add nothing
+            ? { infoIcon: <UploadCloud className="text-[17px]" /> }
+            : {}), 
         },
         {
           name: "Notifications",
@@ -108,7 +108,7 @@ const AppSidebar = () => {
   return (
     <Sidebar className={"gap-4"}>
       <SidebarHeader>
-        <img className="w-[80%] ml-[10%] mt-10" src="/logo.png" alt="" />
+        <img className="w-[80%] ml-[10%] mt-10" src="/saus.jpeg" alt="" />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

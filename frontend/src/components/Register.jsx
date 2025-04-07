@@ -33,7 +33,7 @@ const Register = () => {
   return (
     <div className="flex justify-center items-center bg-gray-200 w-full h-[100vh]">
       <div className="bg-white items-center gap-5 p-10 flex flex-col rounded-2xl shadow-lg">
-        <img className="w-50" src="/logo.png" alt="Logo" />
+        <img className="w-50" src="/saus.jpeg" alt="Logo" />
         <form
           action=""
           onSubmit={handleSubmit(formSubmission)}
