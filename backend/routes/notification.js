@@ -1,7 +1,9 @@
 const express = require('express');
-const { getUserNotifications } = require('../controllers/bookController');
+const { getUserNotifications, deleteNotification } = require('../controllers/bookController');
 const notificationRoute = express.Router()
 
 notificationRoute.get('/:userId/', getUserNotifications)
+notificationRoute.delete('/:id', deleteNotification);
+
 
 module.exports = notificationRoute

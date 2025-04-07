@@ -173,3 +173,18 @@ exports.getUserNotifications = async (req, res) => {
     res.status(404).json({ message: "User not found" });
   }
 };
+
+exports.deleteNotification = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedNotification = await Notification.findByIdAndDelete(id);
+    if (deletedNotification) {
+      res.status(200).json({ message: "Notification deleted successfully" });
+    } else {
+      res.status(404).json({ message: "Notification not found" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
