@@ -12,13 +12,10 @@ import UserManage from "./pages/UserManage";
 import BorrowedManage from "./pages/BorrowedManage";
 import UploadBook from "./pages/UploadBook";
 import Notification from "./pages/Notification";
+import NotFound from "./pages/NotFound";
 
 function App() {
-  const cookie = (name) => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(";").shift();
-  };
+
   const token = window.localStorage.getItem("token");
   return (
     <>
@@ -104,6 +101,7 @@ function App() {
                 )
               }
             />
+            <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </UserContextProvider>
       </BrowserRouter>
