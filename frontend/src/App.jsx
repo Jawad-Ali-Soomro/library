@@ -13,6 +13,7 @@ import BorrowedManage from "./pages/BorrowedManage";
 import UploadBook from "./pages/UploadBook";
 import Notification from "./pages/Notification";
 import NotFound from "./pages/NotFound";
+import Support from "./components/Support";
 
 function App() {
 
@@ -102,6 +103,11 @@ function App() {
               }
             />
             <Route path="*" element={<NotFound />}></Route>
+            <Route path="/support" element={
+              <ProtectedRoute>
+                <Support />
+              </ProtectedRoute>
+            }></Route>
           </Routes>
         </UserContextProvider>
       </BrowserRouter>
