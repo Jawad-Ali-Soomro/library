@@ -7,8 +7,8 @@ const Support = () => {
         height:'87vh',
         overflow: 'hidden'
     }}>
-     <iframe src='https://interfaces.zapier.com/embed/chatbot/cmaaxaey2001zibupfktggo0e' height='100%' width='100%' allow='clipboard-write *'></iframe>
-    </div>
+        <iframe src='https://interfaces.zapier.com/embed/chatbot/cmaaxaey2001zibupfktggo0e' height='100%' width='100%' allow='clipboard-write *'></iframe>
+     </div>
   )
 }
 
