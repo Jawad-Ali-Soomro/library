@@ -47,13 +47,13 @@ const AppSidebar = () => {
   const setNavLinks = (role) => {
     if (role === "user") {
       return [
-        { name: "Home", path: "/", icon: <Home className="text-[17px]" /> },
+        { name: "Home", path: "/", icon: <Home className="text-[17px] icon" /> },
         {
           name: "Update Profile",
           path: "/profile",
-          icon: <Settings className="text-[17px]" />,
+          icon: <Settings className="text-[17px] icon" />,
           ...(user?.avatar === "" || user?.avatar === null
-            ? { infoIcon: <UploadCloud className="text-[17px]" /> }
+            ? { infoIcon: <UploadCloud className="text-[17px] icon" /> }
             : {}), 
         },
         {
@@ -64,7 +64,7 @@ const AppSidebar = () => {
         {
           name: "Borrowed Books",
           path: "/borrowed",
-          icon: <Book className="text-[17px]" />,
+          icon: <Book className="text-[17px] icon" />,
           ...(user?.borrowedBooks?.length > 0 && {
             total: user.borrowedBooks.length,
           }),
@@ -72,7 +72,7 @@ const AppSidebar = () => {
         {
           name: "Contact Librarian",
           path: "/support",
-          icon: <Headset className="text-[17px]" />,
+          icon: <Headset className="text-[17px] icon" />,
         },
       ];
     } else if (role === "admin") {
@@ -80,22 +80,22 @@ const AppSidebar = () => {
         {
           name: "Dashboard",
           path: "/",
-          icon: <LayoutDashboard className="text-[17px]" />,
+          icon: <LayoutDashboard className="text-[17px] icon" />,
         },
         {
           name: "Manage Books",
           path: "/admin/books",
-          icon: <Book className="text-[17px]" />,
+          icon: <Book className="text-[17px] icon" />,
         },
         {
           name: "Manage Users",
           path: "/admin/users",
-          icon: <Users className="text-[17px]" />,
+          icon: <Users className="text-[17px] icon" />,
         },
         {
           name: "Issued Books",
           path: "/admin/issued-books",
-          icon: <Clipboard className="text-[17px]" />,
+          icon: <Clipboard className="text-[17px] icon" />,
         },
         
       
@@ -106,7 +106,7 @@ const AppSidebar = () => {
   const navLinks = setNavLinks(role);
 
   return (
-    <Sidebar className={"gap-4"}>
+    <Sidebar className={"gap-4 icon"}>
       <SidebarHeader>
         <img className="w-[80%] ml-[10%] mt-10" src="/saus.jpeg" alt="" />
       </SidebarHeader>
@@ -123,12 +123,12 @@ const AppSidebar = () => {
                     }
                     style={{
                       background:
-                        item.path == location ? "rgba(0,0,0,.05)" : "",
-                      color: item.path == location ? "black" : "",
+                        item.path == location ? "#7c565b" : "",
+                      color: item.path == location ? "white" : "",
                     }}
                   >
                     <a className="capitalize" href={item.path}>
-                      <span>{item.icon}</span>
+                      <span className="icon">{item.icon}</span>
                       <span className="text-[15px]">{item.name}</span>
                       {item.total && (
                         <span className="w-8 h-8 flex items-center justify-center bg-gray-900 text-white  absolute text-[12px] rounded-2xl right-2">
@@ -136,7 +136,7 @@ const AppSidebar = () => {
                         </span>
                       )}
                       {item.infoIcon && (
-                        <span className="w-8 h-8 flex items-center justify-center text-black  absolute text-[12px] rounded-2xl right-2">
+                        <span className="w-8 icon h-8 flex items-center justify-center text-black  absolute text-[12px] rounded-2xl right-2">
                           {item?.infoIcon}
                         </span>
                       )}

@@ -4,7 +4,7 @@ import QRCode from "react-qr-code";
 const FullImage = ({ imageUrl, onClose, data }) => {
   return (
     <div
-      className="w-[100%] h-[100vh] fixed left-0 z-10000 flex   items-center justify-center top-0 bg-[rgba(0,0,0,0.6)]"
+      className="w-[100%] h-[100vh] fixed left-0 z-10000 flex icon   items-center justify-center top-0 bg-[rgba(0,0,0,0.6)]"
       onClick={onClose}
     >
       <div

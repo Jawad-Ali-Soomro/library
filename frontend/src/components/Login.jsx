@@ -32,7 +32,7 @@ const Login = () => {
       login(response.data.user, response.data.token);
       window.location.reload();
     } catch (error) {
-      console.error(error);
+      toast.error(error.response.data.message);
     }
   };
   return (

@@ -4,6 +4,7 @@ Button {
 
 * {
   font-family: Exo;
+  border-radius: 25px;
 }
 
 .forgot {
@@ -72,4 +73,8 @@ Button {
   } to {
     transform: translateY(0);
   }
+}
+
+.icon {
+  border-radius: 0 !important;
 }
